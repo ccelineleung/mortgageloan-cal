@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './src/App';
-
+import { BrowserRouter } from 'react-router-dom';
 // import './styles.css';
 
 
@@ -9,7 +9,9 @@ import App from './src/App';
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-   
-          <App />
+    <BrowserRouter>
+         <App />
+    </BrowserRouter>
+         
  
 );
