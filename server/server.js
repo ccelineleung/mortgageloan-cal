@@ -17,22 +17,19 @@ app.use(express.urlencoded({ extended: true }));
 // // basic get request to get index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
-})
-
+});
 
 // handle request for static files
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, '../client')));
 
-
 // define route handlers
 //routes to api are routed through apiRouter
 // app.use('/api', apiRouter);
 
-
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => {
-  res.status(404).send('404 Errors');
+  res.status(404).send('404 Errors: Unknown route');
 });
 
 // Global error handler

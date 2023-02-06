@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 
 const Homepage = () => {
@@ -8,7 +9,7 @@ const Homepage = () => {
       <button>Home</button>
       <button>History</button>
       <button>Account</button>
-    </div>
+    </div> 
   );
 };
 
