@@ -1,15 +1,16 @@
 import React from 'react';
-
-import { Navigate, useNavigate, Link } from 'react-router-dom';
+import CalculatorInput from './CalculatorInput';
 
 const Homepage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <div>
+      <h1>Mortgage Calculator</h1>
       <button>Home</button>
       <button>History</button>
       <button>Account</button>
-    </div> 
+      <CalculatorInput/>
+    </div>
   );
 };
 
