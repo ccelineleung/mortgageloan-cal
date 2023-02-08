@@ -5,6 +5,7 @@ const CalculatorInput = () => {
   const [calInput, setCalInput] = useState({
     homeValue: '',
     downPayment: '',
+    percent: '',
     loanAmount: '',
     interestRate: '',
     loanTerm: '30',
@@ -12,19 +13,31 @@ const CalculatorInput = () => {
     PMI: '0',
     homeInsurance: '0',
     monthlyHOA: '0',
-    monthlyPayment: '0',
+    monthlyPayment: '',
   });
 
   const calculateLoanAmount = () => {
     const newLoanAmount = calInput.homeValue - calInput.downPayment;
     setCalInput({ ...calInput, loanAmount: newLoanAmount });
-    return calInput.loanAmount;
+
+    return calInput.loanAmount 
   };
+
+  // const calculatorDownPayment = () => {
+  //   const newDownPayment = calInput.percent * calInput.homeValue;
+  //   setCalInput({ ...calInput, downPayment: newDownPayment });
+
+  //   const newPercent = Math.round(calInput.downPayment / calInput.homeValue);
+  //   setCalInput({ ...calInput, percent: newPercent });
+
+  //   return calInput.downPayment || calInput.percent;
+  // };
 
   const calculateMonthlyPayment = () => {
     const percentageToDecimal = (percent) => {
+
       return percent / 12 / 100;
-    };
+    }
 
     const YTM = (year) => {
       return year * 12;
@@ -37,25 +50,26 @@ const CalculatorInput = () => {
           1 + percentageToDecimal(calInput.interestRate),
           -YTM(calInput.loanTerm)
         ));
+   
     setCalInput({ ...calInput, monthlyPayment: newMonthlyPayment });
-
+  
     return calInput.monthlyPayment;
-  };
+  }
 
   const handleTerm = (e) => {
-    setCalInput({...calInput, loanTerm: e.target.value});
+    setCalInput({ ...calInput, loanTerm: e.target.value });
   };
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFactionDigits: 2,
+    minimumFactionDigits: 1,
   });
 
   return (
     <>
       <h2>Calculator</h2>
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <InputForm
           text='Home Value:'
           value={calInput.homeValue}
@@ -74,14 +88,29 @@ const CalculatorInput = () => {
           }
           required
         />
-        <input type='number'></input>%
+        {/* <input
+          type='number'
+          onKeyUp={calculatorDownPayment}
+          value={calInput.percent}
+          onInput={(e) =>
+            setCalInput({ ...calInput, percent: e.target.value })
+          }
+        ></input>
+        % */}
         <InputForm
           text='Loan Amount:'
           value={calInput.loanAmount}
           required
           readOnly
         />
-        <InputForm text='Interest Rate:' required />
+        <InputForm
+          text='Interest Rate:'
+          value={calInput.interestRate}
+          onInput={(e) =>
+            setCalInput({ ...calInput, interestRate: e.target.value })
+          }
+          required
+        />
         <label>Loan Term:</label>
         <select onChange={handleTerm}>
           <option value='30'>30-Years Fixed</option>
@@ -93,9 +122,10 @@ const CalculatorInput = () => {
         <InputForm text='Home Insurance:' />
         <InputForm text='Monthly HOA:' />
         <button onClick={calculateMonthlyPayment}>Calculate</button>
+        <button>Clear</button>
       </form>
       <h2>Monthly Payment {formatter.format(calInput.monthlyPayment)}</h2>
-      <h2>Monthly Payment + fees</h2>
+      <h2>Final Monthly Payment </h2>
       <button>Save</button>
     </>
   );
