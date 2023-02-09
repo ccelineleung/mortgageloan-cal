@@ -7,7 +7,7 @@
     "start": "nodemon server/server.js  ",
     "dev": "concurrently \"nodemon server/server.js\" \"webpack-dev-server --mode development --open --hot\"",
     "build": "webpack --mode production",
-    "front":"NODE_ENV=development webpack serve --open"
+    "front": "NODE_ENV=development webpack serve --open"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ccelineleung/MortgageCal#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chart.js": "^4.2.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -28,6 +29,7 @@
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.9.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.8.0",
     "react-router-dom": "^6.8.0",

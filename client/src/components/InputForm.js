@@ -1,6 +1,14 @@
 import React from 'react';
 
-function InputForm({ text, value, onInput, onKeyUp, readOnly = false, onChange, required= false }) {
+function InputForm({
+  text,
+  value,
+  onInput,
+  onKeyUp,
+  readOnly = false,
+  onChange,
+  required = false,
+}) {
   return (
     <div>
       <label>{text}</label>
