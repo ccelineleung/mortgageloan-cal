@@ -1,6 +1,7 @@
 import React from 'react';
 
 function InputForm({
+  type,
   text,
   value,
   onInput,
@@ -13,7 +14,7 @@ function InputForm({
     <div>
       <label>{text}</label>
       <input
-        type='number'
+        type={type}
         value={value}
         onInput={onInput}
         onKeyUp={onKeyUp}

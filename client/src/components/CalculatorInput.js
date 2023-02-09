@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import InputForm from './InputForm';
 import DoughnutChart from '../charts/Doughnut';
+import SaveButton from './SaveButton';
 
 const CalculatorInput = () => {
-
   const initialState = {
     homeValue: '',
     downPayment: '',
@@ -17,7 +17,7 @@ const CalculatorInput = () => {
     monthlyHOA: '0',
     monthlyPayment: '',
     finalFees: '',
-  }
+  };
   const [calInput, setCalInput] = useState(initialState);
 
   const clearState = () => {
@@ -94,6 +94,7 @@ const CalculatorInput = () => {
       <form onSubmit={(e) => e.preventDefault()}>
         <InputForm
           text='Home Value:'
+          type='number'
           value={calInput.homeValue}
           onKeyUp={calculateLoanAmount}
           onInput={(e) =>
@@ -103,6 +104,7 @@ const CalculatorInput = () => {
         />
         <InputForm
           text='Down Payment:'
+          type='number'
           onKeyUp={calculateLoanAmount}
           value={calInput.downPayment}
           onInput={(e) =>
@@ -121,12 +123,14 @@ const CalculatorInput = () => {
         % */}
         <InputForm
           text='Loan Amount:'
+          type='number'
           value={calInput.loanAmount}
           required
           readOnly
         />
         <InputForm
           text='Interest Rate:'
+          type='number'
           value={calInput.interestRate}
           onInput={(e) =>
             setCalInput({ ...calInput, interestRate: e.target.value })
@@ -145,6 +149,7 @@ const CalculatorInput = () => {
           <>
             <InputForm
               text='Property Tax:'
+              type='number'
               onKeyUp={totalFee}
               onInput={(e) =>
                 setCalInput({ ...calInput, propertyTax: e.target.value })
@@ -152,6 +157,7 @@ const CalculatorInput = () => {
             />
             <InputForm
               text='PMI:'
+              type='number'
               onKeyUp={totalFee}
               onInput={(e) =>
                 setCalInput({ ...calInput, PMIFee: e.target.value })
@@ -159,6 +165,7 @@ const CalculatorInput = () => {
             />
             <InputForm
               text='Home Insurance:'
+              type='number'
               onKeyUp={totalFee}
               onInput={(e) =>
                 setCalInput({ ...calInput, homeInsurance: e.target.value })
@@ -166,6 +173,7 @@ const CalculatorInput = () => {
             />
             <InputForm
               text='Monthly HOA:'
+              type='number'
               onKeyUp={totalFee}
               onInput={(e) =>
                 setCalInput({ ...calInput, monthlyHOA: e.target.value })
@@ -197,9 +205,17 @@ const CalculatorInput = () => {
       </form>
       <h2>Monthly Payment {formatter.format(calInput.monthlyPayment)}</h2>
       <h2>Final Monthly Payment {formatter.format(calInput.finalFees)}</h2>
-      <button>Save</button>
+      {/* <button>Save</button> */}
+      <SaveButton />
 
-      <DoughnutChart/>
+      <DoughnutChart
+        monthlyPayment={calInput.monthlyPayment}
+        HOA={calInput.monthlyHOA}
+        homeInsurance={calInput.homeInsurance}
+        propertyTax={calInput.propertyTax}
+        PMIFee={calInput.PMIFee}
+        finalFees={calInput.finalFees}
+      />
     </>
   );
 };
