@@ -5,8 +5,10 @@ import InputForm from './InputForm';
 
 const SaveButton = () => {
 
-    const saveInfo = () => {
-
+    const saveInfo = async () => {
+        const body = {
+            
+        }
     }
 
     return (

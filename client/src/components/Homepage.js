@@ -6,9 +6,6 @@ const Homepage = () => {
   return (
     <div>
       <h1>Mortgage Calculator</h1>
-      <button>Home</button>
-      <button>History</button>
-      <button>Account</button>
       <CalculatorInput/>
     </div>
   );

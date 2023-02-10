@@ -7,7 +7,7 @@ const CalculatorInput = () => {
   const initialState = {
     homeValue: '',
     downPayment: '',
-    percent: '',
+    // percent: '',
     loanAmount: '',
     interestRate: '',
     loanTerm: '30',
