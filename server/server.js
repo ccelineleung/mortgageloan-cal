@@ -23,9 +23,12 @@ app.get('/', (req, res) => {
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, '../client')));
 
+
 // define route handlers
 //routes to api are routed through apiRouter
-// app.use('/api', apiRouter);
+app.use('/api', apiRouter);
+//routes login/signup requests to userRoute router
+app.use('/users', userRouter);
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => {
