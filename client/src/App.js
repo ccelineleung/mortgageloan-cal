@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import Login from './components/Login';
 // import { Router, Switch, Route, Link } from 'react-router'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Signup from './components/Signup';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/' element={<Homepage />} />
         <Route path='/history' element={<History />} />
         <Route path='/account' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
       </Routes>
     </>
   );
