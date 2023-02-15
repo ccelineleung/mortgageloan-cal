@@ -39,13 +39,23 @@ module.exports = {
       },
     ],
   },
+  // devServer: {
+  //   static: {
+  //     directory: path.resolve(__dirname, '../client/images'),
+  //     publicPath: '/images',
+  //   },
+  //   proxy: {
+  //     '/': 'http://localhost:3000',
+  //   },
+  // },
   devServer: {
+    historyApiFallback: true,
     static: {
-      directory: path.resolve(__dirname, '../client/images'),
-      publicPath: '/images',
+      directory: path.join(__dirname, 'build'),
+      publicPath: '/',
     },
     proxy: {
-      '/': 'http://localhost:3000',
+      '/api': 'http://localhost:3000',
     },
   },
 };

@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;
-// const apiRouter = require('./routes/apiRoute');
+const apiRouter = require('./routes/apiRouter');
 
 // handle parsing request body
 app.use(cookieParser());
@@ -23,12 +23,9 @@ app.get('/', (req, res) => {
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, '../client')));
 
-
 // define route handlers
 //routes to api are routed through apiRouter
 app.use('/api', apiRouter);
-//routes login/signup requests to userRoute router
-app.use('/users', userRouter);
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => {

@@ -20,16 +20,16 @@ const Signup = () => {
   //   password2:''
   // })
 
-  const handleChangeForm = (e) => {
-    // setSignupInfo({ ...signupInfo, [e.target.name]: e.target.value });
+  // const handleChangeForm = (e) => {
+  //   // setSignupInfo({ ...signupInfo, [e.target.name]: e.target.value });
 
-    setSignupInfo({ ...signupInfo, username: username, email: email });
-    return;
-  };
+  //   setSignupInfo({ ...signupInfo, username: username, email: email , password:password});
+  //   return;
+  // };
 
-  useEffect(() => {
-    console.log(signupInfo);
-  });
+  // useEffect(() => {
+  //   console.log(signupInfo);
+  // });
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -64,7 +64,7 @@ const Signup = () => {
     };
 
     try {
-      const res = await fetch(`/users/signup`, {
+      const res = await fetch(`api/users/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'Application/JSON' },
         body: JSON.stringify(body),
@@ -105,7 +105,6 @@ const Signup = () => {
         <label htmlFor='pass'>Password:</label>
         <input
           type='password'
-          minLength='8'
           id='password'
           name='password'
           value={password}
@@ -115,13 +114,15 @@ const Signup = () => {
         <label htmlFor='pass'>Confirm Password:</label>
         <input
           type='password'
-          minLength='8'
           id='password2'
           name='password2'
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
           required
         ></input>
+        {errorMessage && (
+          <div className='error-message login'>{errorMessage}</div>
+        )}
         <input type='submit' value='Create Account'></input>
       </form>
     </>

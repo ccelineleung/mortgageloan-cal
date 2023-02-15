@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
+const userRouter = require('./userRouter.js');
 const apiController = require('../controllers/apiController')
-const { route } = require('../server/server.js')
+
+const path = require('path');
 
 //retrive all the homeInfos from the user
 router.get('/allSavedforID', apiController.allSavedforId, (req,res) => {
@@ -10,17 +11,21 @@ router.get('/allSavedforID', apiController.allSavedforId, (req,res) => {
 })
 
 //edit the home info
-route.patch('/editHomeInfo', apiController.editHomeInfo, (req,res) => {
+router.patch('/editHomeInfo', apiController.editHomeInfo, (req,res) => {
     return res.status(200).json()
 })
 
 //delete the home
-route.delete('/', apiController.deleteHome, (req,res) => {
+router.delete('/', apiController.deleteHome, (req,res) => {
     return res.status(200).json()
 })
 
 //save the home info
-route.post('/addtoDB', apiController.addtoDB, (req,res) => {
+router.post('/addtoDB', apiController.addtoDB, (req,res) => {
     return res.status(200).json()
 })
+
+//routes login/signup requests to userRoute router
+router.use('/users', userRouter);
+
 module.exports = router;
