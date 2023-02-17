@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+
   "scripts": {
     "start": "nodemon server/server.js  ",
     "dev": "concurrently \"nodemon server/server.js\" \"webpack-dev-server --mode development --open --hot\"",

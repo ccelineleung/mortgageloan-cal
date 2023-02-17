@@ -1,7 +1,8 @@
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
+require('dotenv').config()
 const { Pool } = require('pg');
 
-dotenv.config();
+// dotenv.config();
 
 const PG_URI = process.env.DATABASE_URI
 // console.log(PG_URI);
@@ -15,4 +16,4 @@ module.exports = {
     console.log('executed query', text);
     return pool.query(text, params, callback);
   },
-};
+}; 

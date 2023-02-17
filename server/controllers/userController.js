@@ -6,15 +6,15 @@ const userController = {};
 userController.checkUsernameAndEmail = async (req, res, next) => {
   const { username, email, password } = req.body;
   const param = [username, email, password];
-
+  console.log(req.body)
   try {
     const checkQuery = `
         SELECT * FROM users
         WHERE email = $2
         `;
-    const checkUserAndEmail = await db.query(checkQuery, param);
+        const checkUserAndEmail = await db.query(checkQuery, param);
+        console.log('checkUserAndEmail', checkUserAndEmail);
 
-    console.log('checkUserAndEmail', checkUserAndEmail);
 
     if (checkUserAndEmail.row.length === 0) {
       return next();
