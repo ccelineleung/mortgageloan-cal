@@ -4,19 +4,19 @@ const db = require('../models/dbModels');
 const userController = {};
 
 userController.checkUsernameAndEmail = async (req, res, next) => {
-  const { username, email, password } = req.body;
-  const param = [username, email, password];
-  console.log(req.body)
+  const { username, email} = req.body;
+  const param = [username, email];
+  // console.log('this is the body',req.body)
   try {
     const checkQuery = `
         SELECT * FROM users
-        WHERE email = $2
+        WHERE username = $1 AND email = $2
         `;
         const checkUserAndEmail = await db.query(checkQuery, param);
-        console.log('checkUserAndEmail', checkUserAndEmail);
+        // console.log('checkUserAndEmail::::', checkUserAndEmail);
 
 
-    if (checkUserAndEmail.row.length === 0) {
+    if (checkUserAndEmail.rows.length === 0) {
       return next();
     } else {
       return res
@@ -40,12 +40,13 @@ userController.newuUserSignup = async (req, res, next) => {
 
   try {
     const newCharQuery = `
-        INSERT INTO users(username, password, money)
+        INSERT INTO users(username, email, password)
         VALUES($1,$2, $3)
         RETURNING *;
         `;
 
     const result = await db.query(newCharQuery, param);
+    // console.log('newuUserSignup::::', result);
 
     res.locals.user_id = result.rows[0].user_id;
     res.locals.status = {

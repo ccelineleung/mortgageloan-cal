@@ -1,10 +1,11 @@
-// const dotenv = require('dotenv');
-require('dotenv').config()
+const dotenv = require('dotenv');
+// require('dotenv').config()
 const { Pool } = require('pg');
 
-// dotenv.config();
+dotenv.config();
 
-const PG_URI = process.env.DATABASE_URI
+const PG_URI = process.env.POSTGRES_URI
+
 // console.log(PG_URI);
 
 const pool = new Pool({
