@@ -1,5 +1,7 @@
 const { UNSAFE_NavigationContext } = require('react-router-dom');
 const db = require('../models/dbModels');
+const {verify} = require('jsonwebtoken')
+const {hash,compare} = require('bcryptjs')
 
 const userController = {};
 
@@ -36,7 +38,9 @@ userController.checkUsernameAndEmail = async (req, res, next) => {
 
 userController.newuUserSignup = async (req, res, next) => {
   const { username, email, password } = req.body;
-  const param = [username, email, password];
+  const hashedPassword = hash(password,10)
+  console.log('this is password',hashedPassword)
+  const param = [username, email, hashedPassword];
 
   try {
     const newCharQuery = `
