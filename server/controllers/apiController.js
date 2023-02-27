@@ -27,7 +27,7 @@ apiController.allSavedforId = async (req, res, next) => {
 };
 
 //edit the home info
-apiController.editHomeInfo = (req, res, next) => {
+apiController.editHomeInfo = async (req, res, next) => {
     const { user_id, home_id, name,address, additionalInfo } = req.body;
     const param = [user_id, home_id,name,address, additionalInfo ];
   

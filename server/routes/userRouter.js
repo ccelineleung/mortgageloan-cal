@@ -1,5 +1,5 @@
 const express = require('express');
-const apiController = require('../controllers/apiController');
+// const apiController = require('../controllers/apiController');
 const router = express.Router();
 
 const userController = require('../controllers/userController');
@@ -13,5 +13,21 @@ router.post(
     return res.status(200).json(res.locals.status);
   }
 );
+
+router.post('/login', userController.loginUser, (req, res) => {
+  return res.status(200).json(res.locals.status);
+});
+
+router.post('/logout', userController.logOutUser, (req, res) => {
+  return res.status(200).json(res.locals.status);
+});
+
+router.post('/protected', userController.protectedRoute, (req, res) => {
+  return res.status(200).json(res.locals.status);
+});
+
+router.post('/refresh_token', userController.refreshToken, (req, res) => {
+  return res.status(200).json(res.locals.status);
+});
 
 module.exports = router;

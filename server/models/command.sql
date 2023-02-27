@@ -4,7 +4,8 @@ CREATE TABLE users (
   user_id     SERIAL PRIMARY KEY NOT NULL,
   username     VARCHAR(50)  NOT NULL UNIQUE,
   email    VARCHAR(50)  NOT NULL UNIQUE,
-  password      VARCHAR(255)  NOT NULL
+  password      VARCHAR(255)  NOT NULL,
+  refreshtoken VARCHAR(255)  NOT NULL,
 );
 
 

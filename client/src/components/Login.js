@@ -1,5 +1,4 @@
-
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserInfoContext } from '../context/AuthContext';
 
@@ -13,26 +12,73 @@ const Login = () => {
   // userInfo = {username: celine, pw: 0412}
 
   // onSubmit = () => {
-    // axios.get -> send request to server and verifiy user/pw info
-    //  if (failed) ???
-    // if (successful) -> redirect to homepage
+  // axios.get -> send request to server and verifiy user/pw info
+  //  if (failed) ???
+  // if (successful) -> redirect to homepage
   // }
-
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const LinktoSignIn = () => {
     navigate('/signup');
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    setUserInfo({
+      ...userInfo,
+      email: email,
+      password: password,
+    });
+
+    const body = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const res = await fetch(`api/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'Application/JSON' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.status === true) {
+        navigate('/');
+      } else {
+        setErrorMessage('Wrong Email or Password')
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
+  }
+
   return (
     <>
       <h1>Returning Customer Sign in</h1>
-      <form>
+      <form onSubmit={handleLogin}>
         <label htmlFor='email'>Email:</label>
-        <input type='email' pattern='.+@globex\.com' size='30' required></input>
+        <input
+          type='email'
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        ></input>
         <label htmlFor='pass'>Password:</label>
-        <input type='password' minLength='8' required></input>
+        <input
+          type='password'
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        ></input>
+        {errorMessage && (
+          <div className='error-message login'>{errorMessage}</div>
+        )}
+        <input type='submit' value='Sign in'></input>
       </form>
-      <button type='submit'>Sign In</button>
+      
 
       <div>
         <h1>New Customer</h1>

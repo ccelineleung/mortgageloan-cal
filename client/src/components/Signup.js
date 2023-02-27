@@ -95,7 +95,6 @@ const Signup = () => {
         <label htmlFor='email'>Email:</label>
         <input
           type='email'
-          size='30'
           id='email'
           name='email'
           value={email}
