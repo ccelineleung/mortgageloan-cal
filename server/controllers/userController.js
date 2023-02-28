@@ -138,11 +138,21 @@ userController.loginUser = async (req, res, next) => {
 };
 
 userController.logOutUser = (req, res, next) => {
-  res.clearCookie('refreshtoken');
-  res.locals.status = {
-    message: 'Logged out',
-  };
-  return next();
+  // try {
+    res.clearCookie('refreshtoken', { path: 'api/users/refresh_token' });
+    res.locals.status = {
+      message: 'Logged out',
+    };
+    return next();
+  // } catch (error) {
+  //   return next({
+  //     log: 'Express error in logOutUser middleware',
+  //     status: 400,
+  //     message: {
+  //       err: `userController.logOutUser: ERROR: ${error}`,
+  //     },
+  //   });
+  // }
 };
 
 //create protected route
@@ -166,14 +176,14 @@ userController.protectedRoute = async (req, res, next) => {
 };
 
 //get a new access token with a refresh token
-userController.refreshToken = (req, res, next) => {
+userController.refreshToken = async (req, res, next) => {
   const token = req.cookies.refreshtoken;
   //if we dont have a token in our request
   if (!token) return res.send({ accesstoken: '' });
   //if we have a token, lets verify it
   let payload = null;
   try {
-    let payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
+    payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
   } catch (err) {
     return res.send({ accesstoken: '' });
   }
@@ -182,9 +192,37 @@ userController.refreshToken = (req, res, next) => {
   const findUserQuery = `
   SELECT * FROM users 
   WHERE user_id = $1
-  `
-  const param = [payload.userId]  
+  `;
+  const param = [payload.userId];
+  console.log(`this is param`, param)
 
+  const returnUserData = await db.query(findUserQuery, param);
+  console.log(`this is returnUserData`, returnUserData)
+
+  if (returnUserData.rows.length === 0) return res.send({ accesstoken: '' });
+  // user exist, check if refreshtoken exist on user
+  if (returnUserData.rows[0].refreshtoken !== token) {
+    return res.send({ accesstoken: '' });
+  }
+
+  //token exist, create new refresh and access token
+  const user_id = returnUserData.rows[0].user_id;
+  const accesstoken = createAccressToken(user_id);
+  const refreshtoken = createRefreshToken(user_id);
+
+  const updateRefreshTokenQuery = `
+  UPDATE users
+  SET refreshtoken = $2
+  WHERE user_id = $1
+  RETURNING *
+  `;
+  const paramTwo = [user_id, refreshtoken];
+
+  await db.query(updateRefreshTokenQuery, paramTwo);
+
+  //all good to go ,send new refreshtoken and accesstoken
+  sendRefreshToken(res.refreshtoken);
+  return res.send({ accesstoken });
 };
 
 module.exports = userController;

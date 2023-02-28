@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const navigate = useNavigate();
 
-  const { signupInfo, setSignupInfo } = useContext(SignupContext);
+  // const { signupInfo, setSignupInfo } = useContext(SignupContext);
   const [errorMessage, setErrorMessage] = useState(null); // set errorMessage if passwords do not match
 
   // Controlled or uncontrolled?
@@ -39,23 +39,13 @@ const Signup = () => {
       return;
     }
 
-    setSignupInfo({
-      ...signupInfo,
-      username: username,
-      email: email,
-      password: password,
-    });
-    // axios
-    //   .post('/users/signup', { username, email, password })
-    //   .then((res) => {
-    //     const data =  res.json();
-    //     if (data.status === true)
-    //     navigate('/');
-    //   })
-    //   .catch((err) => {
-    //     const error = err.response.data.message;
-    //     setErrorMessage(error);
-    //   });
+    // setSignupInfo({
+    //   ...signupInfo,
+    //   username: username,
+    //   email: email,
+    //   password: password,
+    // });
+ 
 
     const body = {
       username: username,
@@ -71,7 +61,7 @@ const Signup = () => {
       });
       const data = await res.json();
       console.log(data);
-      if (data.status === true) {
+      if (!data.error) {
         navigate('/');
       }
     } catch (error) {

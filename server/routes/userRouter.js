@@ -18,15 +18,15 @@ router.post('/login', userController.loginUser, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 
-router.post('/logout', userController.logOutUser, (req, res) => {
+router.delete('/logout', userController.logOutUser, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 
-router.post('/protected', userController.protectedRoute, (req, res) => {
+router.get('/protected', userController.protectedRoute, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 
-router.post('/refresh_token', userController.refreshToken, (req, res) => {
+router.get('/refresh_token', userController.refreshToken, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 

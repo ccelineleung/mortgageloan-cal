@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
-const NavBar = () => {
+const NavBar = ({ logOutCallback }) => {
   return (
     <nav>
       <h3>Logo</h3>
@@ -10,15 +9,15 @@ const NavBar = () => {
         <Link to='/'>
           <li>Home</li>
         </Link>
-        <Link to='/history'>
+        <Link to='/protected'>
           <li>History</li>
         </Link>
         <Link to='/account'>
           <li>Account</li>
         </Link>
+        <button onClick={logOutCallback}>Log Out</button>
       </ul>
     </nav>
-  
   );
 };
 

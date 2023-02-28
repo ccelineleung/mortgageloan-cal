@@ -11,6 +11,12 @@ const apiRouter = require('./routes/apiRouter');
 // handle parsing request body
 app.use(cookieParser());
 app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 
 //needed to be able to read body data
 app.use(express.json()); //to support JSON-encoded bodies

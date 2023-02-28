@@ -45,17 +45,29 @@ const Login = () => {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      console.log(data);
-      if (data.status === true) {
+      // console.log(data);
+      // if (data.status === true) {
+      //   navigate('/');
+      // } else {
+      //   setErrorMessage('Wrong Email or Password')
+      // }
+      if (data.status === false) {
+        setErrorMessage('Wrong Email or Password');
+      }
+      if (data.accesstoken) {
+        setUserInfo({
+          accesstoken: data.accesstoken,
+        });
         navigate('/');
-      } else {
-        setErrorMessage('Wrong Email or Password')
       }
     } catch (error) {
       console.log(error.message);
     }
+  };
 
-  }
+  useEffect(()=>{
+    console.log(userInfo)
+  },[userInfo])
 
   return (
     <>
@@ -78,7 +90,6 @@ const Login = () => {
         )}
         <input type='submit' value='Sign in'></input>
       </form>
-      
 
       <div>
         <h1>New Customer</h1>
