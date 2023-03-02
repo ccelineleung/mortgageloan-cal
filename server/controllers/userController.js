@@ -139,11 +139,11 @@ userController.loginUser = async (req, res, next) => {
 
 userController.logOutUser = (req, res, next) => {
   // try {
-    res.clearCookie('refreshtoken', { path: 'api/users/refresh_token' });
-    res.locals.status = {
-      message: 'Logged out',
-    };
-    return next();
+  res.clearCookie('refreshtoken', { path: 'api/users/refresh_token' });
+  res.locals.status = {
+    message: 'Logged out',
+  };
+  return next();
   // } catch (error) {
   //   return next({
   //     log: 'Express error in logOutUser middleware',
@@ -158,11 +158,12 @@ userController.logOutUser = (req, res, next) => {
 //create protected route
 userController.protectedRoute = async (req, res, next) => {
   try {
-    const userId = isAuth(req);
+    const userId = await isAuth(req);
+
     if (userId !== null) {
-      res.locals.status = {
+      res.send({
         data: 'This is protected data',
-      };
+      });
     }
   } catch (error) {
     return next({
@@ -194,10 +195,10 @@ userController.refreshToken = async (req, res, next) => {
   WHERE user_id = $1
   `;
   const param = [payload.userId];
-  console.log(`this is param`, param)
+  console.log(`this is param`, param);
 
   const returnUserData = await db.query(findUserQuery, param);
-  console.log(`this is returnUserData`, returnUserData)
+  console.log(`this is returnUserData`, returnUserData);
 
   if (returnUserData.rows.length === 0) return res.send({ accesstoken: '' });
   // user exist, check if refreshtoken exist on user

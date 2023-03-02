@@ -7,7 +7,7 @@ import { UserInfoContext } from '../context/AuthContext';
 const History = () => {
   const navigate = useNavigate();
 
-  const { user } = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
   // if(!user.accesstoken) return navigate('/login')
   const [content, setContent] = useState('You need to login');
 
@@ -15,18 +15,23 @@ const History = () => {
     const fetchProtected = async () => {
       const res = await fetch('api/users/protected', {
         method: 'GET',
-        credentials:'include',
+        credentials: 'include',
         headers: {
           'Content-Type': 'Application/JSON',
-          authorization: `Bearer ${user.accesstoken}`,
+          authorization: `Bearer ${userInfo.accesstoken}`,
         },
       });
       const datas = await res.json();
-      console.log(`this is data from history`, datas)
-      if (datas.data) setContent(datas.data);
+
+      if (datas.data) {
+        setContent(datas.data);
+      } else {
+        navigate('/account');
+        return content;
+      }
     };
     fetchProtected();
-  }, [user]);
+  }, [userInfo]);
 
   return (
     <>
