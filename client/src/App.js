@@ -14,7 +14,7 @@ import {
 } from 'react-router-dom';
 import Signup from './components/Signup';
 import { UserInfoContext } from './context/AuthContext';
-import { SignupContext } from './context/AuthContext';
+// import { SignupContext } from './context/AuthContext';
 
 const App = () => {
   const navigate = useNavigate();
@@ -46,6 +46,8 @@ const App = () => {
         });
         const data = await res.json();
         setUserInfo({
+          ...userInfo,
+          user_id:data.user_id,
           accesstoken: data.accesstoken,
         });
         setLoading(false);
@@ -56,7 +58,7 @@ const App = () => {
     checkRefreshToken();
   }, []);
 
-  if (loading) return <div>Loading ... </div>;
+  // if (loading) return <div>Loading ... </div>;
 
   return (
     <>

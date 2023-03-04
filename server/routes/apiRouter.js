@@ -6,7 +6,7 @@ const apiController = require('../controllers/apiController')
 const path = require('path');
 
 //retrive all the homeInfos from the user
-router.get('/allSavedforID', apiController.allSavedforId, (req,res) => {
+router.post('/allSavedforID', apiController.allSavedforId, (req,res) => {
     return res.status(200).json(res.locals.status)
 })
 

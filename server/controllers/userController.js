@@ -180,13 +180,14 @@ userController.protectedRoute = async (req, res, next) => {
 userController.refreshToken = async (req, res, next) => {
   const token = req.cookies.refreshtoken;
   //if we dont have a token in our request
-  if (!token) return res.send({ accesstoken: '' });
+  console.log(`THIS IS TOKEN`,token)
+  if (!token) return res.send({ accesstoken: '1' });
   //if we have a token, lets verify it
   let payload = null;
   try {
     payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
   } catch (err) {
-    return res.send({ accesstoken: '' });
+    return res.send({accesstoken: 'ERROR' });
   }
 
   //token is valid, check if user exist
@@ -195,15 +196,15 @@ userController.refreshToken = async (req, res, next) => {
   WHERE user_id = $1
   `;
   const param = [payload.userId];
-  console.log(`this is param`, param);
+  // console.log(`this is param`, param);
 
   const returnUserData = await db.query(findUserQuery, param);
-  console.log(`this is returnUserData`, returnUserData);
+  // console.log(`this is returnUserData`, returnUserData);
 
-  if (returnUserData.rows.length === 0) return res.send({ accesstoken: '' });
+  if (returnUserData.rows.length === 0) return res.send({ accesstoken: '2' });
   // user exist, check if refreshtoken exist on user
   if (returnUserData.rows[0].refreshtoken !== token) {
-    return res.send({ accesstoken: '' });
+    return res.send({ accesstoken: '3' });
   }
 
   //token exist, create new refresh and access token
@@ -223,7 +224,8 @@ userController.refreshToken = async (req, res, next) => {
 
   //all good to go ,send new refreshtoken and accesstoken
   sendRefreshToken(res.refreshtoken);
-  return res.send({ accesstoken });
+  console.log(`THE LAST USERID`, user_id)
+  return res.send({ user_id:'user_id',accesstoken:'accesstoken' });
 };
 
 module.exports = userController;

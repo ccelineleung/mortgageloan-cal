@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { SignupContext } from '../context/AuthContext';
+// import { SignupContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {

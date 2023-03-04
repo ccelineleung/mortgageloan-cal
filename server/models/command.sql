@@ -13,6 +13,7 @@ CREATE TABLE homedata (
   home_id     SERIAL PRIMARY KEY NOT NULL,
   user_id     INT NOT NULL,
   homevalue        VARCHAR(50) NOT NULL,
+  loanamount    VARCHAR(255) NOT NULL,
   downpayment       VARCHAR(255) NOT NULL,
   interest       VARCHAR(255) NOT NULL,
   loanterm      VARCHAR(255) NOT NULL,
@@ -25,8 +26,7 @@ CREATE TABLE homedata (
   name      VARCHAR(255) NOT NULL,
   address       VARCHAR(255) NOT NULL,
   additionalInfo       VARCHAR(255) NOT NULL,
-  date         DATE,
-  time         TIME,
+
 
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 

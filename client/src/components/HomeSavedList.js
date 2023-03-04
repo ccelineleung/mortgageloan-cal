@@ -1,6 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const HomeSavedList = () => {
+const HomeSavedList = ({ user_Id }) => {
+
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const getAllData = async () => {
+      const body = { userId: user_Id };
+      console.log(`FRONTEND`,body)
+      try {
+        const res = await fetch(`api/allSavedforID`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'Application/JSON' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        setUserData(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getAllData();
+  }, []);
+
+  console.log(`userdata`, userData);
+
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -9,7 +33,6 @@ const HomeSavedList = () => {
 
   return (
     <>
-      
       <table className='styled-table'>
         <thead>
           <tr>

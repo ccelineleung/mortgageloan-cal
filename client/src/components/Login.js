@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+// import { use } from '../../../server/s erver';
 import { UserInfoContext } from '../context/AuthContext';
 
 const Login = () => {
@@ -17,6 +18,7 @@ const Login = () => {
   // if (successful) -> redirect to homepage
   // }
   const [errorMessage, setErrorMessage] = useState(null);
+  // const [userId, setUserId] = useState('') //#############
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -56,8 +58,10 @@ const Login = () => {
       }
       if (data.accesstoken) {
         setUserInfo({
+          ...userInfo,
           accesstoken: data.accesstoken,
         });
+        localStorage.setItem('accesstoken',data.accesstoken)
         navigate('/');
       }
     } catch (error) {

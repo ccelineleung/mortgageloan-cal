@@ -206,7 +206,19 @@ const CalculatorInput = () => {
       <h2>Monthly Payment {formatter.format(calInput.monthlyPayment)}</h2>
       <h2>Final Monthly Payment {formatter.format(calInput.finalFees)}</h2>
       {/* <button>Save</button> */}
-      <SaveButton />
+      <SaveButton
+        homeValue={calInput.homeValue}
+        downPayment={calInput.downPayment}
+        loanAmount={calInput.loanAmount}
+        interestRate={calInput.interestRate}
+        loanTerm={calInput.loanTerm}
+        monthlyPayment={calInput.monthlyPayment}
+        HOA={calInput.monthlyHOA}
+        homeInsurance={calInput.homeInsurance}
+        propertyTax={calInput.propertyTax}
+        PMIFee={calInput.PMIFee}
+        finalFees={calInput.finalFees}
+      />
 
       <DoughnutChart
         monthlyPayment={calInput.monthlyPayment}

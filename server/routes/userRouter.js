@@ -22,7 +22,7 @@ router.delete('/logout', userController.logOutUser, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 
-router.get('/protected', userController.protectedRoute, (req, res) => {
+router.post('/protected', userController.protectedRoute, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 
