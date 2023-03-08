@@ -11,11 +11,11 @@ apiController.allSavedforId = async (req, res, next) => {
     const allDatafromUserQuery = `
         SELECT * FROM homedata
         WHERE user_id = $1 
-        RETURNING *
+        
         `;
     const allDatafromUser = await db.query(allDatafromUserQuery, param);
-    console.log(`allDatafromUser`,allDatafromUser)
-    res.locals.status = allDatafromUser;
+    // console.log(`allDatafromUser`,allDatafromUser)
+    res.locals.status = allDatafromUser.rows;
     return next();
   } catch (error) {
     return next({

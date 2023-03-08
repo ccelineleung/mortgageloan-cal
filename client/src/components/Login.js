@@ -59,9 +59,11 @@ const Login = () => {
       if (data.accesstoken) {
         setUserInfo({
           ...userInfo,
+          
           accesstoken: data.accesstoken,
         });
         localStorage.setItem('accesstoken',data.accesstoken)
+        // console.log(`data.accesstoken from login`,data)
         navigate('/');
       }
     } catch (error) {
@@ -73,6 +75,8 @@ const Login = () => {
     console.log(userInfo)
   },[userInfo])
 
+  // console.log('USER INFO FROM LOG IN PAGE',userInfo)
+  
   return (
     <>
       <h1>Returning Customer Sign in</h1>

@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react';
 
-const HomeSavedList = ({ user_Id }) => {
-
+const HomeSavedList = ({ userId }) => {
+  // console.log(`userID from homeSavedData1111`, userId);
   const [userData, setUserData] = useState([]);
 
-  useEffect(() => {
-    const getAllData = async () => {
-      const body = { userId: user_Id };
-      console.log(`FRONTEND`,body)
-      try {
-        const res = await fetch(`api/allSavedforID`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'Application/JSON' },
-          body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        setUserData(data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getAllData();
-  }, []);
+  // useEffect(() => {
+  //   console.log('useEffect ran');
+  //   console.log(`userID from homeSavedData222`, userId);
+  //   const getAllData = async () => {
+  //     // const body = { userId: user_Id };
+  //     // console.log(`FRONTEND`,body)
+  //     try {
+  //       const res = await fetch(`api/allSavedforID`, {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'Application/JSON' },
+  //         body: JSON.stringify(userId),
+  //       });
+  //       const data = await res.json();
+  //       setUserData(data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
+  //   getAllData();
+  // }, [userId]);
 
-  console.log(`userdata`, userData);
+  // console.log(`userdata`, userData);
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -45,7 +47,7 @@ const HomeSavedList = ({ user_Id }) => {
             <th>DELETE</th>
           </tr>
         </thead>
-        {/* <tbody>
+        <tbody>
           {userData.map((data, index) => (
             <tr key={index}>
               <td>{formatter.format(data.homevalue)}</td>
@@ -61,7 +63,7 @@ const HomeSavedList = ({ user_Id }) => {
               </td>
             </tr>
           ))}
-        </tbody> */}
+        </tbody>
       </table>
     </>
   );

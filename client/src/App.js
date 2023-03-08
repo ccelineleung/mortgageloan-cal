@@ -28,6 +28,7 @@ const App = () => {
       credentials: 'include',
       headers: { 'Content-Type': 'Application/JSON' },
     });
+   
     await res.json();
     //clean user from context
     setUserInfo({});

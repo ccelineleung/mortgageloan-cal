@@ -138,21 +138,21 @@ userController.loginUser = async (req, res, next) => {
 };
 
 userController.logOutUser = (req, res, next) => {
-  // try {
-  res.clearCookie('refreshtoken', { path: 'api/users/refresh_token' });
-  res.locals.status = {
-    message: 'Logged out',
-  };
-  return next();
-  // } catch (error) {
-  //   return next({
-  //     log: 'Express error in logOutUser middleware',
-  //     status: 400,
-  //     message: {
-  //       err: `userController.logOutUser: ERROR: ${error}`,
-  //     },
-  //   });
-  // }
+  try {
+    res.clearCookie('refreshtoken', { path: 'api/users/refresh_token' });
+    res.locals.status = {
+      message: 'Logged out',
+    };
+    return next();
+  } catch (error) {
+    return next({
+      log: 'Express error in logOutUser middleware',
+      status: 400,
+      message: {
+        err: `userController.logOutUser: ERROR: ${error}`,
+      },
+    });
+  }
 };
 
 //create protected route
@@ -161,9 +161,14 @@ userController.protectedRoute = async (req, res, next) => {
     const userId = await isAuth(req);
 
     if (userId !== null) {
-      res.send({
+      res.locals.stats = {
         data: 'This is protected data',
-      });
+      };
+      return next();
+    } else {
+      return res
+        .status(404)
+        .json({ message: `USER HAS NO PERMISSION TO THIS PAGE` });
     }
   } catch (error) {
     return next({
@@ -180,14 +185,14 @@ userController.protectedRoute = async (req, res, next) => {
 userController.refreshToken = async (req, res, next) => {
   const token = req.cookies.refreshtoken;
   //if we dont have a token in our request
-  console.log(`THIS IS TOKEN`,token)
+  console.log(`THIS IS TOKEN`, token);
   if (!token) return res.send({ accesstoken: '1' });
   //if we have a token, lets verify it
   let payload = null;
   try {
     payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
   } catch (err) {
-    return res.send({accesstoken: 'ERROR' });
+    return res.send({ accesstoken: 'ERROR' });
   }
 
   //token is valid, check if user exist
@@ -224,8 +229,8 @@ userController.refreshToken = async (req, res, next) => {
 
   //all good to go ,send new refreshtoken and accesstoken
   sendRefreshToken(res.refreshtoken);
-  console.log(`THE LAST USERID`, user_id)
-  return res.send({ user_id:'user_id',accesstoken:'accesstoken' });
+  console.log(`THE LAST USERID`, user_id);
+  return res.send({ user_id: 'user_id', accesstoken: 'accesstoken' });
 };
 
 module.exports = userController;
