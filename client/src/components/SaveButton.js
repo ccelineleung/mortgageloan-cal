@@ -21,14 +21,17 @@ const SaveButton = ({
   const [address, setAddress] = useState('');
   const [additionalInfo, setAddtionalInfo] = useState('');
   const [userId, setUserId] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken');
 
-    if (token !== undefined) {
+    if (token) {
       const decoded = jwt_decode(token);
       //   console.log(`DECODED`, decoded.userId);
       setUserId(decoded.userId);
+    } else {
+      setErrorMessage('PLEASE LOG IN OR RESGISTER IN ORDER TO SAVE');
     }
   }, []);
 
@@ -36,7 +39,7 @@ const SaveButton = ({
     // e.preventDefault();
 
     const body = {
-        userId:userId,
+      userId: userId,
       homeValue: homeValue,
       downPayment: downPayment,
       loanAmount: loanAmount,
@@ -95,6 +98,7 @@ const SaveButton = ({
                 <div>
                   {/* <button onClick={() => close()}>Save</button> */}
                   <button onClick={() => handleSubmit()}>Save</button>
+                  {errorMessage && <div>{errorMessage}</div>}
                   <button onClick={() => close()}>Close</button>
                 </div>
               </div>

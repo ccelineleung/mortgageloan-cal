@@ -88,7 +88,7 @@ apiController.deleteHome = async (req, res, next) => {
 //save the home info
 apiController.addtoDB = async (req, res, next) => {
   const {
-    user_id,
+    userId,
     homevalue,
     loanamount,
     downpayment,
@@ -105,7 +105,7 @@ apiController.addtoDB = async (req, res, next) => {
     additionalInfo,
   } = req.body;
   const param = [
-    user_id,
+    userId,
     homevalue,
     loanamount,
     downpayment,
@@ -121,11 +121,11 @@ apiController.addtoDB = async (req, res, next) => {
     address,
     additionalInfo,
   ];
-
-//   console.log(req.body);
+ console.log(`req.body`,req.body)
+  console.log(`param`,param);
   try {
     const addtoDBQuery = `
-    INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,PMI,insurance,HOA,monthlypayment,finalpayment,name,address,additionalInfo)
+    INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,pmi,insurance,hoa,monthlypayment,finalpayment,name,address,additionalinfo)
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
     RETURNING *
           `;
@@ -138,6 +138,7 @@ apiController.addtoDB = async (req, res, next) => {
     };
     return next();
   } catch (error) {
+    console.log(error.message)
     return next({
       log: 'Express error in addtoDB middleware',
       status: 400,

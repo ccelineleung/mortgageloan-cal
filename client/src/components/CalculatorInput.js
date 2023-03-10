@@ -60,7 +60,8 @@ const CalculatorInput = () => {
           -YTM(calInput.loanTerm)
         ));
 
-    setCalInput({ ...calInput, monthlyPayment: newMonthlyPayment });
+    const twoDicimalMonthlyPayment = (Math.round(newMonthlyPayment * 100) / 100).toString()
+    setCalInput({ ...calInput, monthlyPayment: twoDicimalMonthlyPayment });
 
     return calInput.monthlyPayment;
   };
