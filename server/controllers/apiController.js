@@ -6,7 +6,7 @@ const apiController = {};
 apiController.allSavedforId = async (req, res, next) => {
   const { userId } = req.body;
   const param = [userId];
-  console.log(`USERID reqbody`,req.body)
+  console.log(`USERID reqbody`, req.body);
   try {
     const allDatafromUserQuery = `
         SELECT * FROM homedata
@@ -70,11 +70,11 @@ apiController.deleteHome = async (req, res, next) => {
         `;
 
     const data = await db.query(deleteQuery, param);
-    res.local.status = {
-      message: 'home info has been deleted',
-    };
+    // res.local.status = data.rows
+    // console.log(`data from backend`,data.rows)
     return next();
   } catch (error) {
+    console.log(error.message)
     return next({
       log: 'Express error in deleteHome middleware',
       status: 400,
@@ -89,40 +89,39 @@ apiController.deleteHome = async (req, res, next) => {
 apiController.addtoDB = async (req, res, next) => {
   const {
     userId,
-    homevalue,
-    loanamount,
-    downpayment,
-    interest,
-    loanterm,
-    proptax,
-    PMI,
-    insurance,
+    homeValue,
+    loanAmount,
+    downPayment,
+    interestRate,
+    loanTerm,
+    propertyTax,
+    PMIFee,
+    homeInsurance,
     HOA,
-    monthlypayment,
-    finalpayment,
+    monthlyPayment,
+    finalFees,
     name,
     address,
     additionalInfo,
   } = req.body;
   const param = [
     userId,
-    homevalue,
-    loanamount,
-    downpayment,
-    interest,
-    loanterm,
-    proptax,
-    PMI,
-    insurance,
+    homeValue,
+    loanAmount,
+    downPayment,
+    interestRate,
+    loanTerm,
+    propertyTax,
+    PMIFee,
+    homeInsurance,
     HOA,
-    monthlypayment,
-    finalpayment,
+    monthlyPayment,
+    finalFees,
     name,
     address,
     additionalInfo,
   ];
- console.log(`req.body`,req.body)
-  console.log(`param`,param);
+  console.log(param)
   try {
     const addtoDBQuery = `
     INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,pmi,insurance,hoa,monthlypayment,finalpayment,name,address,additionalinfo)
@@ -131,14 +130,14 @@ apiController.addtoDB = async (req, res, next) => {
           `;
 
     const data = await db.query(addtoDBQuery, param);
-    console.log(`DATA`,data)
+
     res.local.status = {
       status: true,
       message: 'Successful added to DB',
     };
     return next();
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
     return next({
       log: 'Express error in addtoDB middleware',
       status: 400,

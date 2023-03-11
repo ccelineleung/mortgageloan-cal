@@ -32,6 +32,7 @@ const App = () => {
     await res.json();
     //clean user from context
     setUserInfo({});
+    localStorage.clear()
     //navigate back to startpage
     navigate('/account');
   };

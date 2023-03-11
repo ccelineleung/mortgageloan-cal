@@ -12,7 +12,7 @@ const History = () => {
   // if(!user.accesstoken) return navigate('/login')
   const [content, setContent] = useState('You need to login');
   const [userData, setUserData] = useState([]);
-  // const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     const fetchProtected = async () => {
@@ -25,7 +25,7 @@ const History = () => {
         },
       });
       const datas = await res.json();
-
+      console.log(`datas from history`, datas);
       if (datas.data === undefined) {
         navigate('/account');
         return content;
@@ -35,10 +35,14 @@ const History = () => {
     };
 
     const token = localStorage.getItem('accesstoken');
-    const decoded = jwt_decode(token);
-    // setUserId(decoded.userId);
-    const user_Id = decoded.userId;
+    let user_Id;
+    if (token) {
+      const decoded = jwt_decode(token);
 
+      user_Id = decoded.userId;
+      setUserId(user_Id);
+    }
+    // setUserId(decoded.userId);
     const getAllData = async () => {
       const body = { userId: user_Id };
 
@@ -50,22 +54,43 @@ const History = () => {
         });
         const data = await res.json();
         setUserData(data);
-        console.log(`NEW DATA`, data);
       } catch (error) {
         console.log(error.message);
       }
     };
 
     fetchProtected();
-    getAllData();
+    if (user_Id) getAllData();
   }, [userInfo]);
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFactionDigits: 2,
+    // minimumFactionDigits: 2,
   });
   // console.log(`USERID from HISTORY.JS`, userId);
+
+  const deleteDatafromDB = async (id) => {
+    const body = {
+      user_id: userId,
+      home_id: id,
+    };
+    console.log(`THIS IS BODY FROM DELETE DATA`, body);
+    try {
+      const res = await fetch(`api/delete`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'Application/JSON' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      setUserData(data);
+      // console.log(`userData`, userData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  console.log(`111111111`,userData)
   return (
     <>
       <h1>Target Home Lists</h1>
@@ -88,11 +113,11 @@ const History = () => {
               <td>{formatter.format(data.homevalue)}</td>
               <td>{formatter.format(data.downpayment)}</td>
               <td>{formatter.format(data.loanamount)}</td>
-              <td>{data.interestrate}</td>
-              <td>{data.loanterm}</td>
-              <td>{formatter.format(data.payment)}</td>
+              <td>{data.interest}%</td>
+              <td>{data.loanterm} Years</td>
+              <td>{formatter.format(data.monthlypayment)}</td>
               <td>
-                <button onClick={() => deleteDatafromDB(data.id)}>
+                <button onClick={() => deleteDatafromDB(data.home_id)}>
                   Delete
                 </button>
               </td>

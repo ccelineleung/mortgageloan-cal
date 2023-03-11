@@ -158,9 +158,12 @@ userController.logOutUser = (req, res, next) => {
 //create protected route
 userController.protectedRoute = async (req, res, next) => {
   try {
-    const userId = await isAuth(req);
-
-    if (userId !== null) {
+   
+  
+     const userId = await isAuth(req);
+   
+    console.log(`userID`,userId)
+    if (userId) {
       res.locals.stats = {
         data: 'This is protected data',
       };
@@ -171,6 +174,7 @@ userController.protectedRoute = async (req, res, next) => {
         .json({ message: `USER HAS NO PERMISSION TO THIS PAGE` });
     }
   } catch (error) {
+    console.log(error.message)
     return next({
       log: 'Express error in protectedRoute middleware',
       status: 400,
@@ -185,8 +189,10 @@ userController.protectedRoute = async (req, res, next) => {
 userController.refreshToken = async (req, res, next) => {
   const token = req.cookies.refreshtoken;
   //if we dont have a token in our request
-  console.log(`THIS IS TOKEN`, token);
-  if (!token) return res.send({ accesstoken: '1' });
+
+  console.log(`THIS IS TOKEN from refreshToken middleware`, token);
+
+  if (!token) return res.send({ accesstoken: '' });
   //if we have a token, lets verify it
   let payload = null;
   try {
@@ -206,7 +212,7 @@ userController.refreshToken = async (req, res, next) => {
   const returnUserData = await db.query(findUserQuery, param);
   // console.log(`this is returnUserData`, returnUserData);
 
-  if (returnUserData.rows.length === 0) return res.send({ accesstoken: '2' });
+  if (returnUserData.rows.length === 0) return res.send({ accesstoken: '' });
   // user exist, check if refreshtoken exist on user
   if (returnUserData.rows[0].refreshtoken !== token) {
     return res.send({ accesstoken: '3' });
