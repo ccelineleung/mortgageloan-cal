@@ -158,8 +158,6 @@ userController.logOutUser = (req, res, next) => {
 //create protected route
 userController.protectedRoute = async (req, res, next) => {
   try {
-   
-  
      const userId = await isAuth(req);
    
     console.log(`userID`,userId)

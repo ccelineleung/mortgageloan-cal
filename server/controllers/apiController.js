@@ -6,7 +6,7 @@ const apiController = {};
 apiController.allSavedforId = async (req, res, next) => {
   const { userId } = req.body;
   const param = [userId];
-  console.log(`USERID reqbody`, req.body);
+  // console.log(`USERID reqbody`, req.body);
   try {
     const allDatafromUserQuery = `
         SELECT * FROM homedata
@@ -59,8 +59,8 @@ apiController.editHomeInfo = async (req, res, next) => {
 
 //delete the home
 apiController.deleteHome = async (req, res, next) => {
-  const { user_id, home_id } = req.body;
-  const param = [user_id, home_id];
+  const { userId, home_id } = req.body;
+  const param = [userId, home_id];
 
   try {
     const deleteQuery = `
@@ -71,7 +71,7 @@ apiController.deleteHome = async (req, res, next) => {
 
     const data = await db.query(deleteQuery, param);
     // res.local.status = data.rows
-    // console.log(`data from backend`,data.rows)
+    // console.log(`data from backend`,data)
     return next();
   } catch (error) {
     console.log(error.message)

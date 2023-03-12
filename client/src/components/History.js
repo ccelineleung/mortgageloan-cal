@@ -72,7 +72,7 @@ const History = () => {
 
   const deleteDatafromDB = async (id) => {
     const body = {
-      user_id: userId,
+      userId: userId,
       home_id: id,
     };
     console.log(`THIS IS BODY FROM DELETE DATA`, body);
@@ -83,6 +83,7 @@ const History = () => {
         body: JSON.stringify(body),
       });
       const data = await res.json();
+      // date -> after delete
       setUserData(data);
       // console.log(`userData`, userData);
     } catch (error) {
@@ -90,7 +91,7 @@ const History = () => {
     }
   };
 
-  console.log(`111111111`,userData)
+  // console.log(`111111111`, userData);
   return (
     <>
       <h1>Target Home Lists</h1>
