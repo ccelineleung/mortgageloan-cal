@@ -9,6 +9,7 @@ function InputForm({
   readOnly = false,
   onChange,
   required = false,
+  placeholder,
 }) {
   return (
     <div>
@@ -21,6 +22,7 @@ function InputForm({
         readOnly={readOnly}
         onChange={onChange}
         required={required}
+        placeholder={placeholder}
       />
     </div>
   );

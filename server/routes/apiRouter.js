@@ -11,9 +11,14 @@ router.post('/allSavedforID', apiController.allSavedforId, (req, res) => {
 });
 
 //edit the home info
-router.patch('/editHomeInfo', apiController.editHomeInfo, (req, res) => {
-  return res.status(200).json(res.locals.status);
-});
+router.patch(
+  '/editHomeInfo',
+  apiController.editHomeInfo,
+  apiController.allSavedforId,
+  (req, res) => {
+    return res.status(200).json(res.locals.status);
+  }
+);
 
 //delete the home
 router.delete(

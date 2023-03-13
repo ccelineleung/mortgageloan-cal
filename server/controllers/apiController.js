@@ -30,23 +30,25 @@ apiController.allSavedforId = async (req, res, next) => {
 
 //edit the home info
 apiController.editHomeInfo = async (req, res, next) => {
-  const { user_id, home_id, name, address, additionalInfo } = req.body;
-  const param = [user_id, home_id, name, address, additionalInfo];
+  const { home_id, name, address, userId } = req.body;
+  const param = [home_id, name, address, userId];
 
+  console.log(`req.body`, req.body);
+  console.log(`param`, param);
   try {
-    const deleteQuery = `
+    const updateQuery = `
         UPDATE homedata
-        SET name = $3 AND address = 4$ AND additionalInfo = $5
-        WHERE home_id = $2
-        RETURNING *
+        SET name = $2, address = $3 
+        WHERE home_id = $1 AND user_id = $4
           `;
 
-    const data = await db.query(deleteQuery, param);
-    res.local.status = {
-      message: 'home info has been updated',
-    };
+    const data = await db.query(updateQuery, param);
+    // res.local.status = {
+    //   message: 'home info has been updated',
+    // };
     return next();
   } catch (error) {
+    console.log(error.message);
     return next({
       log: 'Express error in editHomeInfo middleware',
       status: 400,
@@ -74,7 +76,7 @@ apiController.deleteHome = async (req, res, next) => {
     // console.log(`data from backend`,data)
     return next();
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
     return next({
       log: 'Express error in deleteHome middleware',
       status: 400,
@@ -121,7 +123,7 @@ apiController.addtoDB = async (req, res, next) => {
     address,
     additionalInfo,
   ];
-  console.log(param)
+  // console.log(param)
   try {
     const addtoDBQuery = `
     INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,pmi,insurance,hoa,monthlypayment,finalpayment,name,address,additionalinfo)
