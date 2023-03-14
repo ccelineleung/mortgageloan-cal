@@ -97,7 +97,13 @@ const SaveButton = ({
                 </div>
                 <div>
                   {/* <button onClick={() => close()}>Save</button> */}
-                  <button onClick={() => handleSubmit()}>Save</button>
+                  <button
+                    onClick={() => {
+                      handleSubmit(), close();
+                    }}
+                  >
+                    Save
+                  </button>
                   {errorMessage && <div>{errorMessage}</div>}
                   <button onClick={() => close()}>Close</button>
                 </div>
