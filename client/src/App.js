@@ -15,6 +15,7 @@ import {
 import Signup from './components/Signup';
 import { UserInfoContext } from './context/AuthContext';
 // import { SignupContext } from './context/AuthContext';
+import './style.css';
 
 const App = () => {
   const navigate = useNavigate();
@@ -28,11 +29,11 @@ const App = () => {
       credentials: 'include',
       headers: { 'Content-Type': 'Application/JSON' },
     });
-   
+
     await res.json();
     //clean user from context
     setUserInfo({});
-    localStorage.clear()
+    localStorage.clear();
     //navigate back to startpage
     navigate('/account');
   };
@@ -49,7 +50,7 @@ const App = () => {
         const data = await res.json();
         setUserInfo({
           ...userInfo,
-          user_id:data.user_id,
+          user_id: data.user_id,
           accesstoken: data.accesstoken,
         });
         setLoading(false);
@@ -66,13 +67,13 @@ const App = () => {
     <>
       <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
         {/* <SignupContext.Provider value={{ signupInfo, setSignupInfo }}> */}
-          <NavBar logOutCallback={logOutCallback} />
-          <Routes>
-            <Route path='/' element={<Homepage />} />
-            <Route path='/protected' element={<History />} />
-            <Route path='/account' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-          </Routes>
+        <NavBar logOutCallback={logOutCallback} />
+        <Routes>
+          <Route path='/' element={<Homepage />} />
+          <Route path='/protected' element={<History />} />
+          <Route path='/account' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
         {/* </SignupContext.Provider> */}
       </UserInfoContext.Provider>
     </>
