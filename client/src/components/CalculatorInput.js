@@ -60,7 +60,9 @@ const CalculatorInput = () => {
           -YTM(calInput.loanTerm)
         ));
 
-    const twoDicimalMonthlyPayment = (Math.round(newMonthlyPayment * 100) / 100).toString()
+    const twoDicimalMonthlyPayment = (
+      Math.round(newMonthlyPayment * 100) / 100
+    ).toString();
     setCalInput({ ...calInput, monthlyPayment: twoDicimalMonthlyPayment });
 
     return calInput.monthlyPayment;
@@ -129,7 +131,7 @@ const CalculatorInput = () => {
           required
           readOnly
         />
-        <InputForm
+        {/* <InputForm
           text='Interest Rate:'
           type='number'
           value={calInput.interestRate}
@@ -137,13 +139,38 @@ const CalculatorInput = () => {
             setCalInput({ ...calInput, interestRate: e.target.value })
           }
           required
-        />
+        /> */}
+        <div>
+          <label
+            htmlFor='number'
+            className='block text-sm font-medium leading-6 text-gray-900'
+          >
+            Interest Rate
+          </label>
+          <div className='relative mt-2 rounded-md shadow-sm'>
+            <input
+              className='block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+              placeholder='0'
+              type='number'
+              value={calInput.interestRate}
+              onInput={(e) =>
+                setCalInput({ ...calInput, interestRate: e.target.value })
+              }
+              required
+            />
+            <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
+              <span className='text-gray-500 sm:text-sm'>%</span>
+            </div>
+          </div>
+        </div>
+
         <label>Loan Term:</label>
         <select onChange={handleTerm}>
           <option value='30'>30-Years Fixed</option>
           <option value='25'>25-Years Fixed</option>
           <option value='15'>15-Years Fixed</option>
         </select>
+
         <br />
 
         {moreQuestion && (
@@ -185,6 +212,8 @@ const CalculatorInput = () => {
 
         {moreQuestion ? (
           <button
+            type='button'
+            className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
             onClick={() => {
               setMoreQuestion(false);
             }}
@@ -196,14 +225,29 @@ const CalculatorInput = () => {
             onClick={() => {
               setMoreQuestion(true);
             }}
+            type='button'
+            className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
           >
             Show Questions
           </button>
         )}
         <br />
-        <button onClick={calculateMonthlyPayment}>Calculate</button>
-        <button onClick={clearState}>Clear</button>
+        <button
+          type='button'
+          className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+          onClick={calculateMonthlyPayment}
+        >
+          Calculate
+        </button>
+        <button
+          type='button'
+          className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+          onClick={clearState}
+        >
+          Clear
+        </button>
       </form>
+
       <h2>Monthly Payment {formatter.format(calInput.monthlyPayment)}</h2>
       <h2>Final Monthly Payment {formatter.format(calInput.finalFees)}</h2>
       {/* <button>Save</button> */}

@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import {FaHome} from 'react-icons/fa'
+import { UserInfoContext } from '../context/AuthContext';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -9,7 +11,10 @@ const navigation = [
  
 ]
 const NavBar = ({ logOutCallback }) => {
+
+  const { userInfo } = useContext(UserInfoContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     // <header className='bg-white'>
     //   <nav
@@ -35,16 +40,21 @@ const NavBar = ({ logOutCallback }) => {
     // </header>
 
 
+    
 
 
-
-    <header className="bg-white">
+    <header className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+    
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            {/* <img className="h-8 w-auto" src={<FaHome />} alt="" /> */}
+            <FaHome className="h-8 w-auto"/>
           </a>
+          <div className='flex justify-between p-2'>
+            <h3>Mortgage Calculator</h3>
+            </div>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -115,6 +125,7 @@ const NavBar = ({ logOutCallback }) => {
           </div>
         </Dialog.Panel>
       </Dialog>
+    
     </header>
   )
 

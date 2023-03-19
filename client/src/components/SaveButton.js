@@ -74,7 +74,19 @@ const SaveButton = ({
   return (
     <>
       <div>
-        <Popup trigger={<button> Save </button>} modal nested>
+        <Popup
+          trigger={
+            <button
+              type='button'
+              className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+            >
+              {' '}
+              Save{' '}
+            </button>
+          }
+          modal
+          nested
+        >
           {
             // @ts-ignore
             (close) => (
@@ -101,11 +113,19 @@ const SaveButton = ({
                     onClick={() => {
                       handleSubmit(), close();
                     }}
+                    type='button'
+                    className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
                   >
                     Save
                   </button>
                   {errorMessage && <div>{errorMessage}</div>}
-                  <button onClick={() => close()}>Close</button>
+                  <button
+                    type='button'
+                    className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                    onClick={() => close()}
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
             )

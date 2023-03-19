@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // import { use } from '../../../server/s erver';
 import { UserInfoContext } from '../context/AuthContext';
 import { XCircleIcon } from '@heroicons/react/24/outline';
+import { FaHome } from 'react-icons/fa';
 
 const Login = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -50,7 +51,7 @@ const Login = () => {
       if (data.accesstoken) {
         setUserInfo({
           ...userInfo,
-
+          username:data.username,
           accesstoken: data.accesstoken,
         });
         localStorage.setItem('accesstoken', data.accesstoken);
@@ -63,7 +64,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(userInfo);
+    console.log(`This is userInfo from Login`,userInfo);
   }, [userInfo]);
 
   // console.log('USER INFO FROM LOG IN PAGE',userInfo)
@@ -101,11 +102,12 @@ const Login = () => {
 
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-          <img
+          {/* <img
             className='mx-auto h-12 w-auto'
             src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
             alt='Your Company'
-          />
+          /> */}
+          <FaHome className='mx-auto h-12 w-auto'/>
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
             Sign in to your account
           </h2>
