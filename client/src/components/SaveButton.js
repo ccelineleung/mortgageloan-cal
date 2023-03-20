@@ -109,6 +109,7 @@ const SaveButton = ({
                 </div>
                 <div>
                   {/* <button onClick={() => close()}>Save</button> */}
+                  <br />
                   <button
                     onClick={() => {
                       handleSubmit(), close();
@@ -119,6 +120,7 @@ const SaveButton = ({
                     Save
                   </button>
                   {errorMessage && <div>{errorMessage}</div>}
+               
                   <button
                     type='button'
                     className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'

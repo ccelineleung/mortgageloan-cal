@@ -20,7 +20,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    console.log(`first userinfo`, userInfo)
     setUserInfo({
       ...userInfo,
       email: email,
@@ -54,9 +54,11 @@ const Login = () => {
           username:data.username,
           accesstoken: data.accesstoken,
         });
+        console.log(`second userinfo`, userInfo)
         localStorage.setItem('accesstoken', data.accesstoken);
         // console.log(`data.accesstoken from login`,data)
-        navigate('/');
+        navigate('/account');
+
       }
     } catch (error) {
       console.log(error.message);

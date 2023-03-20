@@ -14,16 +14,16 @@ const userController = {};
 
 userController.checkUsernameAndEmail = async (req, res, next) => {
   const { username, email } = req.body;
-  const param = [username, email];
+  const param = [email];
   // console.log('this is the body',req.body)
   try {
     const checkQuery = `
         SELECT * FROM users
-        WHERE username = $1 AND email = $2
+        WHERE email = $1
         `;
     const checkUserAndEmail = await db.query(checkQuery, param);
-    // console.log('checkUserAndEmail::::', checkUserAndEmail);
-
+    console.log('checkUserAndEmail::::', checkUserAndEmail.rows.length);
+``
     if (checkUserAndEmail.rows.length === 0) {
       return next();
     } else {
@@ -158,9 +158,9 @@ userController.logOutUser = (req, res, next) => {
 //create protected route
 userController.protectedRoute = async (req, res, next) => {
   try {
-     const userId = await isAuth(req);
-   
-    console.log(`userID`,userId)
+    const userId = await isAuth(req);
+
+    console.log(`userID`, userId);
     if (userId) {
       res.locals.stats = {
         data: 'This is protected data',
@@ -172,7 +172,7 @@ userController.protectedRoute = async (req, res, next) => {
         .json({ message: `USER HAS NO PERMISSION TO THIS PAGE` });
     }
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
     return next({
       log: 'Express error in protectedRoute middleware',
       status: 400,

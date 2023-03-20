@@ -37,7 +37,7 @@ const Signup = () => {
       });
       const data = await res.json();
 
-      if (data.err) {
+      if (data.status === false) {
         setErrorMessage('Email already exists');
       } else {
         navigate('/');

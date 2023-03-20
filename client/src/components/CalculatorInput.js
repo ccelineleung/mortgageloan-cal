@@ -93,29 +93,33 @@ const CalculatorInput = () => {
 
   return (
     <>
-      <h2>Calculator</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <InputForm
-          text='Home Value:'
-          type='number'
-          value={calInput.homeValue}
-          onKeyUp={calculateLoanAmount}
-          onInput={(e) =>
-            setCalInput({ ...calInput, homeValue: e.target.value })
-          }
-          required
-        />
-        <InputForm
-          text='Down Payment:'
-          type='number'
-          onKeyUp={calculateLoanAmount}
-          value={calInput.downPayment}
-          onInput={(e) =>
-            setCalInput({ ...calInput, downPayment: e.target.value })
-          }
-          required
-        />
-        {/* <input
+      <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-800'>
+        Calculator
+      </h2>
+      <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md grid grid-cols-1 gap-20'>
+        <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 col-start-1 col-end-9'>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <InputForm
+              text='Home Value:'
+              type='number'
+              value={calInput.homeValue}
+              onKeyUp={calculateLoanAmount}
+              onInput={(e) =>
+                setCalInput({ ...calInput, homeValue: e.target.value })
+              }
+              required
+            />
+            <InputForm
+              text='Down Payment:'
+              type='number'
+              onKeyUp={calculateLoanAmount}
+              value={calInput.downPayment}
+              onInput={(e) =>
+                setCalInput({ ...calInput, downPayment: e.target.value })
+              }
+              required
+            />
+            {/* <input
           type='number'
           onKeyUp={calculatorDownPayment}
           value={calInput.percent}
@@ -124,14 +128,14 @@ const CalculatorInput = () => {
           }
         ></input>
         % */}
-        <InputForm
-          text='Loan Amount:'
-          type='number'
-          value={calInput.loanAmount}
-          required
-          readOnly
-        />
-        {/* <InputForm
+            <InputForm
+              text='Loan Amount:'
+              type='number'
+              value={calInput.loanAmount}
+              required
+              readOnly
+            />
+            {/* <InputForm
           text='Interest Rate:'
           type='number'
           value={calInput.interestRate}
@@ -140,139 +144,142 @@ const CalculatorInput = () => {
           }
           required
         /> */}
-        <div>
-          <label
-            htmlFor='number'
-            className='block text-sm font-medium leading-6 text-gray-900'
-          >
-            Interest Rate
-          </label>
-          <div className='relative mt-2 rounded-md shadow-sm'>
-            <input
-              className='block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-              placeholder='0'
-              type='number'
-              value={calInput.interestRate}
-              onInput={(e) =>
-                setCalInput({ ...calInput, interestRate: e.target.value })
-              }
-              required
-            />
-            <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
-              <span className='text-gray-500 sm:text-sm'>%</span>
+            <div>
+              <label
+                htmlFor='number'
+                className='block text-sm font-medium leading-6 text-gray-900'
+              >
+                Interest Rate
+              </label>
+              <div className='relative mt-2 rounded-md shadow-sm'>
+                <input
+                  className='block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                  placeholder='0'
+                  type='number'
+                  value={calInput.interestRate}
+                  onInput={(e) =>
+                    setCalInput({ ...calInput, interestRate: e.target.value })
+                  }
+                  required
+                />
+                <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
+                  <span className='text-gray-500 sm:text-sm'>%</span>
+                </div>
+              </div>
             </div>
-          </div>
+
+            <label>Loan Term:</label>
+            <select onChange={handleTerm}>
+              <option value='30'>30-Years Fixed</option>
+              <option value='25'>25-Years Fixed</option>
+              <option value='15'>15-Years Fixed</option>
+            </select>
+
+            <br />
+
+            {moreQuestion && (
+              <>
+                <InputForm
+                  text='Property Tax:'
+                  type='number'
+                  onKeyUp={totalFee}
+                  onInput={(e) =>
+                    setCalInput({ ...calInput, propertyTax: e.target.value })
+                  }
+                />
+                <InputForm
+                  text='PMI:'
+                  type='number'
+                  onKeyUp={totalFee}
+                  onInput={(e) =>
+                    setCalInput({ ...calInput, PMIFee: e.target.value })
+                  }
+                />
+                <InputForm
+                  text='Home Insurance:'
+                  type='number'
+                  onKeyUp={totalFee}
+                  onInput={(e) =>
+                    setCalInput({ ...calInput, homeInsurance: e.target.value })
+                  }
+                />
+                <InputForm
+                  text='Monthly HOA:'
+                  type='number'
+                  onKeyUp={totalFee}
+                  onInput={(e) =>
+                    setCalInput({ ...calInput, monthlyHOA: e.target.value })
+                  }
+                />
+              </>
+            )}
+
+            {moreQuestion ? (
+              <button
+                type='button'
+                className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
+                onClick={() => {
+                  setMoreQuestion(false);
+                }}
+              >
+                Hide Questions
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setMoreQuestion(true);
+                }}
+                type='button'
+                className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
+              >
+                Show Questions
+              </button>
+            )}
+            <br />
+            <button
+              type='button'
+              className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              onClick={calculateMonthlyPayment}
+            >
+              Calculate
+            </button>
+            <button
+              type='button'
+              className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              onClick={clearState}
+            >
+              Clear
+            </button>
+          </form>
+
+          <h2>Monthly Payment {formatter.format(calInput.monthlyPayment)}</h2>
+          <h2>Final Monthly Payment {formatter.format(calInput.finalFees)}</h2>
+          {/* <button>Save</button> */}
+          <SaveButton
+            homeValue={calInput.homeValue}
+            downPayment={calInput.downPayment}
+            loanAmount={calInput.loanAmount}
+            interestRate={calInput.interestRate}
+            loanTerm={calInput.loanTerm}
+            monthlyPayment={calInput.monthlyPayment}
+            HOA={calInput.monthlyHOA}
+            homeInsurance={calInput.homeInsurance}
+            propertyTax={calInput.propertyTax}
+            PMIFee={calInput.PMIFee}
+            finalFees={calInput.finalFees}
+          />
         </div>
-
-        <label>Loan Term:</label>
-        <select onChange={handleTerm}>
-          <option value='30'>30-Years Fixed</option>
-          <option value='25'>25-Years Fixed</option>
-          <option value='15'>15-Years Fixed</option>
-        </select>
-
-        <br />
-
-        {moreQuestion && (
-          <>
-            <InputForm
-              text='Property Tax:'
-              type='number'
-              onKeyUp={totalFee}
-              onInput={(e) =>
-                setCalInput({ ...calInput, propertyTax: e.target.value })
-              }
+          <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 col-end-20 col-span-10'>
+            <DoughnutChart
+              monthlyPayment={calInput.monthlyPayment}
+              HOA={calInput.monthlyHOA}
+              homeInsurance={calInput.homeInsurance}
+              propertyTax={calInput.propertyTax}
+              PMIFee={calInput.PMIFee}
+              finalFees={calInput.finalFees}
             />
-            <InputForm
-              text='PMI:'
-              type='number'
-              onKeyUp={totalFee}
-              onInput={(e) =>
-                setCalInput({ ...calInput, PMIFee: e.target.value })
-              }
-            />
-            <InputForm
-              text='Home Insurance:'
-              type='number'
-              onKeyUp={totalFee}
-              onInput={(e) =>
-                setCalInput({ ...calInput, homeInsurance: e.target.value })
-              }
-            />
-            <InputForm
-              text='Monthly HOA:'
-              type='number'
-              onKeyUp={totalFee}
-              onInput={(e) =>
-                setCalInput({ ...calInput, monthlyHOA: e.target.value })
-              }
-            />
-          </>
-        )}
-
-        {moreQuestion ? (
-          <button
-            type='button'
-            className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
-            onClick={() => {
-              setMoreQuestion(false);
-            }}
-          >
-            Hide Questions
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setMoreQuestion(true);
-            }}
-            type='button'
-            className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
-          >
-            Show Questions
-          </button>
-        )}
-        <br />
-        <button
-          type='button'
-          className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-          onClick={calculateMonthlyPayment}
-        >
-          Calculate
-        </button>
-        <button
-          type='button'
-          className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-          onClick={clearState}
-        >
-          Clear
-        </button>
-      </form>
-
-      <h2>Monthly Payment {formatter.format(calInput.monthlyPayment)}</h2>
-      <h2>Final Monthly Payment {formatter.format(calInput.finalFees)}</h2>
-      {/* <button>Save</button> */}
-      <SaveButton
-        homeValue={calInput.homeValue}
-        downPayment={calInput.downPayment}
-        loanAmount={calInput.loanAmount}
-        interestRate={calInput.interestRate}
-        loanTerm={calInput.loanTerm}
-        monthlyPayment={calInput.monthlyPayment}
-        HOA={calInput.monthlyHOA}
-        homeInsurance={calInput.homeInsurance}
-        propertyTax={calInput.propertyTax}
-        PMIFee={calInput.PMIFee}
-        finalFees={calInput.finalFees}
-      />
-
-      <DoughnutChart
-        monthlyPayment={calInput.monthlyPayment}
-        HOA={calInput.monthlyHOA}
-        homeInsurance={calInput.homeInsurance}
-        propertyTax={calInput.propertyTax}
-        PMIFee={calInput.PMIFee}
-        finalFees={calInput.finalFees}
-      />
+          </div>
+      </div>
     </>
   );
 };
