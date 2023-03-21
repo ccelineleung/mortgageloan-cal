@@ -81,7 +81,7 @@ const CalculatorInput = () => {
       Number(calInput.propertyTax);
 
     setCalInput({ ...calInput, finalFees: newFinalFees });
-
+    console.log(`this is monthly payment`, calInput.monthlyPayment);
     return calInput.finalFees;
   };
 
@@ -96,8 +96,9 @@ const CalculatorInput = () => {
       <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-800'>
         Calculator
       </h2>
-      <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md grid grid-cols-1 gap-20'>
-        <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 col-start-1 col-end-9'>
+      {/* <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md grid grid-cols-1 gap-20'> */}
+      <div className='mt-8 flex flex-row justify-center '>
+        <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 basis-1/3 '>
           <form onSubmit={(e) => e.preventDefault()}>
             <InputForm
               text='Home Value:'
@@ -183,6 +184,7 @@ const CalculatorInput = () => {
                   text='Property Tax:'
                   type='number'
                   onKeyUp={totalFee}
+                  value={calInput.propertyTax}
                   onInput={(e) =>
                     setCalInput({ ...calInput, propertyTax: e.target.value })
                   }
@@ -191,6 +193,7 @@ const CalculatorInput = () => {
                   text='PMI:'
                   type='number'
                   onKeyUp={totalFee}
+                  value={calInput.PMIFee}
                   onInput={(e) =>
                     setCalInput({ ...calInput, PMIFee: e.target.value })
                   }
@@ -199,6 +202,7 @@ const CalculatorInput = () => {
                   text='Home Insurance:'
                   type='number'
                   onKeyUp={totalFee}
+                  value={calInput.homeInsurance}
                   onInput={(e) =>
                     setCalInput({ ...calInput, homeInsurance: e.target.value })
                   }
@@ -207,6 +211,7 @@ const CalculatorInput = () => {
                   text='Monthly HOA:'
                   type='number'
                   onKeyUp={totalFee}
+                  value={calInput.monthlyHOA}
                   onInput={(e) =>
                     setCalInput({ ...calInput, monthlyHOA: e.target.value })
                   }
@@ -269,16 +274,16 @@ const CalculatorInput = () => {
             finalFees={calInput.finalFees}
           />
         </div>
-          <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 col-end-20 col-span-10'>
-            <DoughnutChart
-              monthlyPayment={calInput.monthlyPayment}
-              HOA={calInput.monthlyHOA}
-              homeInsurance={calInput.homeInsurance}
-              propertyTax={calInput.propertyTax}
-              PMIFee={calInput.PMIFee}
-              finalFees={calInput.finalFees}
-            />
-          </div>
+        <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 basis-1/3'>
+          <DoughnutChart
+            monthlyPayment={calInput.monthlyPayment}
+            HOA={calInput.monthlyHOA}
+            homeInsurance={calInput.homeInsurance}
+            propertyTax={calInput.propertyTax}
+            PMIFee={calInput.PMIFee}
+            finalFees={calInput.finalFees}
+          />
+        </div>
       </div>
     </>
   );

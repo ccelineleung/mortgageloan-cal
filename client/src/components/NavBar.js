@@ -1,19 +1,51 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import {FaHome} from 'react-icons/fa'
+import { FaHome } from 'react-icons/fa';
 import { UserInfoContext } from '../context/AuthContext';
+import jwt_decode from 'jwt-decode';
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'History', href: '/protected' },
- 
-]
+];
 const NavBar = ({ logOutCallback }) => {
-
   const { userInfo } = useContext(UserInfoContext);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [LoggedIn, setLoggedIn] = useState(false);
+  const [userId, setUserId] = useState();
+  const [username, setUsername] = useState();
+
+  useEffect(() => {
+    const getUsername = async () => {
+      const body = { userId: userId };
+
+      try {
+        const res = await fetch(`api/users/getUsername`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'Application/JSON' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        setUsername(data.username);
+        console.log(`THIS IS USERNAMEEEEE`, data.username);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    const token = localStorage.getItem('accesstoken');
+    let user_Id;
+    if (token) {
+      const decoded = jwt_decode(token);
+
+      user_Id = decoded.userId;
+      setUserId(user_Id);
+      setLoggedIn(true);
+      getUsername();
+    }
+  }, [userInfo]);
 
   return (
     // <header className='bg-white'>
@@ -39,97 +71,142 @@ const NavBar = ({ logOutCallback }) => {
     //   </nav>
     // </header>
 
-
-    
-
-
-    <header className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-    
-      <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+    <header className='divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow'>
+      <nav
+        className='flex items-center justify-between p-6 lg:px-8'
+        aria-label='Global'
+      >
+        <div className='flex lg:flex-1'>
+          <a href='/' className='-m-1.5 p-1.5'>
+            <span className='sr-only'>Your Company</span>
             {/* <img className="h-8 w-auto" src={<FaHome />} alt="" /> */}
-            <FaHome className="h-8 w-auto"/>
+            <FaHome className='h-8 w-auto' />
           </a>
           <div className='flex justify-between p-2'>
             <h3>Mortgage Calculator</h3>
-            </div>
+          </div>
         </div>
-        <div className="flex lg:hidden">
+        <div className='flex lg:hidden'>
           <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            type='button'
+            className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700'
             onClick={() => setMobileMenuOpen(true)}
           >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            <span className='sr-only'>Open main menu</span>
+            <Bars3Icon className='h-6 w-6' aria-hidden='true' />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className='hidden lg:flex lg:gap-x-12'>
           {navigation.map((item) => (
-            <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
+            <a
+              key={item.name}
+              href={item.href}
+              className='text-sm font-semibold leading-6 text-gray-900'
+            >
               {item.name}
             </a>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="/account" className="text-sm font-semibold leading-6 text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
+
+        {LoggedIn === true && (
+          <div>
+            <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
+              <h2 className='text-sm font-semibold leading-6 text-gray-900'>
+                Hello,{username}
+              </h2>
+              <a
+                href='/'
+                onClick={logOutCallback}
+                className='text-sm font-semibold leading-6 text-gray-900'
+              >
+                Log out
+              </a>
+            </div>
+          </div>
+        )}
+
+        {LoggedIn === false && (
+          <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
+            <a
+              href='/account'
+              className='text-sm font-semibold leading-6 text-gray-900'
+            >
+              Log in <span aria-hidden='true'>&rarr;</span>
+            </a>
+          </div>
+        )}
       </nav>
-      <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-        <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+
+      <Dialog
+        as='div'
+        className='lg:hidden'
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+      >
+        <div className='fixed inset-0 z-10' />
+        <Dialog.Panel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
+          <div className='flex items-center justify-between'>
+            <a href='/' className='-m-1.5 p-1.5'>
+              <span className='sr-only'>Your Company</span>
+              {/* <img
+                className='h-8 w-auto'
+                src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+                alt=''
+              /> */}
+              <FaHome className='h-8 w-auto' />
             </a>
             <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              type='button'
+              className='-m-2.5 rounded-md p-2.5 text-gray-700'
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <span className='sr-only'>Close menu</span>
+              <XMarkIcon className='h-6 w-6' aria-hidden='true' />
             </button>
           </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
+          <div className='mt-6 flow-root'>
+            <div className='-my-6 divide-y divide-gray-500/10'>
+              <div className='space-y-2 py-6'>
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className='-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
                   >
                     {item.name}
                   </a>
                 ))}
               </div>
-              <div className="py-6">
-                <a
-                  href="/account"
-                  className="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
-              </div>
+              {LoggedIn === true && (
+                <div className='py-6'>
+                  <h2 className='text-sm font-semibold leading-8 text-gray-900'>
+                    Hello, {username}
+                  </h2>
+                  <a
+                    href='/'
+                    onClick={logOutCallback}
+                    className='-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-800 hover:bg-gray-50'
+                  >
+                    Log Out
+                  </a>
+                </div>
+              )}
+              {LoggedIn === false && (
+                <div className='py-6'>
+                  <a
+                    href='/account'
+                    className='-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+                  >
+                    Log in
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </Dialog.Panel>
       </Dialog>
-    
     </header>
-  )
-
-  
+  );
 };
 
 export default NavBar;

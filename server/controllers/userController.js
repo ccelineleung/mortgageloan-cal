@@ -23,7 +23,7 @@ userController.checkUsernameAndEmail = async (req, res, next) => {
         `;
     const checkUserAndEmail = await db.query(checkQuery, param);
     console.log('checkUserAndEmail::::', checkUserAndEmail.rows.length);
-``
+    ``;
     if (checkUserAndEmail.rows.length === 0) {
       return next();
     } else {
@@ -235,6 +235,38 @@ userController.refreshToken = async (req, res, next) => {
   sendRefreshToken(res.refreshtoken);
   console.log(`THE LAST USERID`, user_id);
   return res.send({ user_id: 'user_id', accesstoken: 'accesstoken' });
+};
+
+userController.getUsername = async (req, res, next) => {
+  const { userId } = req.body;
+  const param = [userId];
+
+  try {
+    const getUsernameQuery = `
+    SELECT * FROM users
+    WHERE user_id = $1
+    `;
+
+    const result = await db.query(getUsernameQuery, param);
+    // console.log('newuUserSignup::::', result);
+
+    res.locals.username = result.rows[0].username;
+    res.locals.status = {
+      username: result.rows[0].username,
+      status: true,
+    };
+
+    return next();
+  } catch (error) {
+    console.log(error)
+    return next({
+      log: 'Express error in getUsername middleware',
+      status: 400,
+      message: {
+        err: `userController.getUsername: ERROR: ${error}`,
+      },
+    });
+  }
 };
 
 module.exports = userController;

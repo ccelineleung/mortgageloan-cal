@@ -57,7 +57,7 @@ const Login = () => {
         console.log(`second userinfo`, userInfo)
         localStorage.setItem('accesstoken', data.accesstoken);
         // console.log(`data.accesstoken from login`,data)
-        navigate('/account');
+        navigate('/protected');
 
       }
     } catch (error) {

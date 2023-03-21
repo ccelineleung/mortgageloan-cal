@@ -18,6 +18,11 @@ router.post('/login', userController.loginUser, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
 
+
+router.post('/getUsername', userController.getUsername, (req, res) => {
+  return res.status(200).json(res.locals.status);
+});
+
 router.delete('/logout', userController.logOutUser, (req, res) => {
   return res.status(200).json(res.locals.status);
 });
