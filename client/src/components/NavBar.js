@@ -14,62 +14,24 @@ const NavBar = ({ logOutCallback }) => {
   const { userInfo } = useContext(UserInfoContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [LoggedIn, setLoggedIn] = useState(false);
-  const [userId, setUserId] = useState();
   const [username, setUsername] = useState();
 
+  console.log('userInfo from Navbar', userInfo);
+
   useEffect(() => {
-    const getUsername = async () => {
-      const body = { userId: userId };
 
-      try {
-        const res = await fetch(`api/users/getUsername`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'Application/JSON' },
-          body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        setUsername(data.username);
-        console.log(`THIS IS USERNAMEEEEE`, data.username);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+    // console.log(req.cookies.refreshtoken)
 
-    const token = localStorage.getItem('accesstoken');
-    let user_Id;
-    if (token) {
-      const decoded = jwt_decode(token);
-
-      user_Id = decoded.userId;
-      setUserId(user_Id);
+    if (userInfo.username) {
+      const username = userInfo.username;
+      setUsername(username);
       setLoggedIn(true);
-      getUsername();
     }
+
+
   }, [userInfo]);
 
   return (
-    // <header className='bg-white'>
-    //   <nav
-    //     className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'
-    //     aria-label='Global'
-    //   >
-    //     <h3 className=''>Logo</h3>
-    //     <ul>
-    //       <Link to='/'>
-    //         <li>Home</li>
-    //       </Link>
-    //       <Link to='/protected'>
-    //         <li>History</li>
-    //       </Link>
-    //       <div className='py-6'>
-    //         <Link to='/account'>
-    //           <li>Account</li>
-    //         </Link>
-    //       </div>
-    //       <button onClick={logOutCallback}>Log Out</button>
-    //     </ul>
-    //   </nav>
-    // </header>
 
     <header className='divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow'>
       <nav
@@ -115,7 +77,7 @@ const NavBar = ({ logOutCallback }) => {
                 Hello,{username}
               </h2>
               <a
-                href='/'
+                // href='/'
                 onClick={logOutCallback}
                 className='text-sm font-semibold leading-6 text-gray-900'
               >

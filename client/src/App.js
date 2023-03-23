@@ -14,15 +14,15 @@ import {
 } from 'react-router-dom';
 import Signup from './components/Signup';
 import { UserInfoContext } from './context/AuthContext';
-// import { SignupContext } from './context/AuthContext';
+
 import './style.css';
 
 const App = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
-  // const [signupInfo, setSignupInfo] = useState({});
 
-  const [loading, setLoading] = useState(true);
+
+
   const logOutCallback = async () => {
     const res = await fetch('api/users/logout', {
       method: 'DELETE',
@@ -50,10 +50,9 @@ const App = () => {
         const data = await res.json();
         setUserInfo({
           ...userInfo,
-          user_id: data.user_id,
           accesstoken: data.accesstoken,
         });
-        setLoading(false);
+      
       } catch (err) {
         console.log(err.message);
       }
@@ -61,7 +60,6 @@ const App = () => {
     checkRefreshToken();
   }, []);
 
-  // if (loading) return <div>Loading ... </div>;
 
   return (
     <>

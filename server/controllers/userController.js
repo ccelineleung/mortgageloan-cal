@@ -5,7 +5,7 @@ const { hash, compare } = require('bcryptjs');
 const {
   createAccressToken,
   createRefreshToken,
-  sendAccessToken,
+  // sendAccessToken,
   sendRefreshToken,
 } = require('../jwt/token');
 const { isAuth } = require('../jwt/isAuth');
@@ -22,7 +22,7 @@ userController.checkUsernameAndEmail = async (req, res, next) => {
         WHERE email = $1
         `;
     const checkUserAndEmail = await db.query(checkQuery, param);
-    console.log('checkUserAndEmail::::', checkUserAndEmail.rows.length);
+    // console.log('checkUserAndEmail::::', checkUserAndEmail.rows.length);
     ``;
     if (checkUserAndEmail.rows.length === 0) {
       return next();
@@ -115,18 +115,23 @@ userController.loginUser = async (req, res, next) => {
     RETURNING *
     `;
 
-    await db.query(insertRefreshToken, paramTwo);
-
+    const data2 = await db.query(insertRefreshToken, paramTwo);
+    // console.log(`data comeback from db`, data2);
+    const username = data2.rows[0].username;
     //5. send token.refreshtoken as a cookie and accesstoken as a regular response
     sendRefreshToken(res, refreshtoken);
-    sendAccessToken(req, res, accesstoken);
+    // sendAccessToken(req, res, accesstoken, username);
 
-    // res.locals.status = {
-    //   status: true,
-    //   message: 'Successful logged in',
-    // };
+    res.locals.status = {
+      userId: user_id,
+      accesstoken: accesstoken,
+      username: username,
+      status: true,
+      message: 'Successful logged in',
+    };
     return next();
   } catch (error) {
+    console.log(`error from login backend`, error);
     return next({
       log: 'Express error in loginUser middleware',
       status: 400,
@@ -139,7 +144,8 @@ userController.loginUser = async (req, res, next) => {
 
 userController.logOutUser = (req, res, next) => {
   try {
-    res.clearCookie('refreshtoken', { path: 'api/users/refresh_token' });
+    // res.clearCookie('refreshtoken', { path: '/protected' });
+    res.clearCookie('refreshtoken');
     res.locals.status = {
       message: 'Logged out',
     };
@@ -187,7 +193,7 @@ userController.protectedRoute = async (req, res, next) => {
 userController.refreshToken = async (req, res, next) => {
   const token = req.cookies.refreshtoken;
   //if we dont have a token in our request
-
+  // console.log(`res.cookies`, req.cookies);
   console.log(`THIS IS TOKEN from refreshToken middleware`, token);
 
   if (!token) return res.send({ accesstoken: '' });
@@ -195,6 +201,7 @@ userController.refreshToken = async (req, res, next) => {
   let payload = null;
   try {
     payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
+    console.log(`payload from refreshtoken`, payload);
   } catch (err) {
     return res.send({ accesstoken: 'ERROR' });
   }
@@ -213,7 +220,7 @@ userController.refreshToken = async (req, res, next) => {
   if (returnUserData.rows.length === 0) return res.send({ accesstoken: '' });
   // user exist, check if refreshtoken exist on user
   if (returnUserData.rows[0].refreshtoken !== token) {
-    return res.send({ accesstoken: '3' });
+    return res.send({ accesstoken: '' });
   }
 
   //token exist, create new refresh and access token
@@ -232,9 +239,9 @@ userController.refreshToken = async (req, res, next) => {
   await db.query(updateRefreshTokenQuery, paramTwo);
 
   //all good to go ,send new refreshtoken and accesstoken
-  sendRefreshToken(res.refreshtoken);
+  sendRefreshToken(res, refreshtoken);
   console.log(`THE LAST USERID`, user_id);
-  return res.send({ user_id: 'user_id', accesstoken: 'accesstoken' });
+  return res.send({ accesstoken: 'accesstoken' });
 };
 
 userController.getUsername = async (req, res, next) => {
@@ -258,7 +265,7 @@ userController.getUsername = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return next({
       log: 'Express error in getUsername middleware',
       status: 400,

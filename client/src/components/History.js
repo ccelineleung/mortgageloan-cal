@@ -19,7 +19,11 @@ const History = () => {
   const [address, setAddress] = useState('');
 
   useEffect(() => {
+    console.log(`userinfo from history`,userInfo)
+    const user_Id = userInfo.userId
+
     const fetchProtected = async () => {
+      console.log('this is accesstorken fodsiohfoahsfa',userInfo.accesstoken)
       const res = await fetch('api/users/protected', {
         method: 'POST',
         credentials: 'include',
@@ -35,17 +39,19 @@ const History = () => {
         return content;
       } else {
         setContent(datas.data);
+        getAllData()
       }
     };
 
-    const token = localStorage.getItem('accesstoken');
-    let user_Id;
-    if (token) {
-      const decoded = jwt_decode(token);
+    // const token = localStorage.getItem('accesstoken');
+    // let user_Id;
+    // if (token) {
+    //   const decoded = jwt_decode(token);
 
-      user_Id = decoded.userId;
-      setUserId(user_Id);
-    }
+    //   user_Id = decoded.userId;
+    //   setUserId(user_Id);
+    // }
+
     // setUserId(decoded.userId);
     const getAllData = async () => {
       const body = { userId: user_Id };
@@ -64,14 +70,10 @@ const History = () => {
     };
 
     fetchProtected();
-    if (user_Id) getAllData();
+    // if (user_Id) getAllData();
   }, [userInfo]);
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    // minimumFactionDigits: 2,
-  });
+
   // console.log(`USERID from HISTORY.JS`, userId);
 
   const deleteHandler = async (id) => {
@@ -94,6 +96,7 @@ const History = () => {
       console.log(error.message);
     }
   };
+
 
   const editHandler = async (id) => {
     const body = {

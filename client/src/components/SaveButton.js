@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import InputForm from './InputForm';
 import jwt_decode from 'jwt-decode';
+import { UserInfoContext } from '../context/AuthContext';
 
 const SaveButton = ({
   homeValue,
@@ -22,8 +23,15 @@ const SaveButton = ({
   const [additionalInfo, setAddtionalInfo] = useState('');
   const [userId, setUserId] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
+  const { userInfo } = useContext(UserInfoContext);
 
   useEffect(() => {
+
+    // if (userInfo.userId) {
+    //   setUserId(userInfo.userId)
+    // } else {
+    //   setErrorMessage('PLEASE LOG IN OR RESGISTER IN ORDER TO SAVE')
+    // }
     const token = localStorage.getItem('accesstoken');
 
     if (token) {
@@ -120,7 +128,7 @@ const SaveButton = ({
                     Save
                   </button>
                   {errorMessage && <div>{errorMessage}</div>}
-               
+
                   <button
                     type='button'
                     className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'

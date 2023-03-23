@@ -20,12 +20,6 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(`first userinfo`, userInfo)
-    setUserInfo({
-      ...userInfo,
-      email: email,
-      password: password,
-    });
 
     const body = {
       email: email,
@@ -48,26 +42,27 @@ const Login = () => {
       if (data.status === false) {
         setErrorMessage('Invaild Email or Password');
       }
-      if (data.accesstoken) {
+      // console.log(`data from frontend log in`, data);
+      if (data.status === true) {
         setUserInfo({
           ...userInfo,
-          username:data.username,
+          userId: data.userId,
+          username: data.username,
           accesstoken: data.accesstoken,
         });
-        console.log(`second userinfo`, userInfo)
+        // console.log(`second userinfo`, userInfo);
         localStorage.setItem('accesstoken', data.accesstoken);
         // console.log(`data.accesstoken from login`,data)
-        navigate('/protected');
-
+        navigate('/');
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  useEffect(() => {
-    console.log(`This is userInfo from Login`,userInfo);
-  }, [userInfo]);
+  // useEffect(() => {
+  //   console.log(`This is userInfo from Login`, userInfo);
+  // }, [handleLogin, userInfo]);
 
   // console.log('USER INFO FROM LOG IN PAGE',userInfo)
 
@@ -109,7 +104,7 @@ const Login = () => {
             src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
             alt='Your Company'
           /> */}
-          <FaHome className='mx-auto h-12 w-auto'/>
+          <FaHome className='mx-auto h-12 w-auto' />
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
             Sign in to your account
           </h2>

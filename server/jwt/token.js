@@ -12,24 +12,28 @@ const createRefreshToken = (userId) => {
   });
 };
 
-const sendAccessToken = (req, res, accesstoken) => {
-  res.send({
-    accesstoken,
-    status: true,
-    message: 'Successful logged in',
-  });
-};
+// const sendAccessToken = (req, res, accesstoken, username) => {
+//   console.log(`hiiiiii`);
+//   res.send({
+//     username: username,
+//     accesstoken,
+//     status: true,
+//     message: 'Successful logged in',
+//   });
+// };
 
 const sendRefreshToken = (res, refreshtoken) => {
+  // console.log(`sendRefreshToken`, refreshtoken);
   res.cookie('refreshtoken', refreshtoken, {
     httpOnly: true,
-    path: '/users/refresh_token',
+    // path: '/protected',
   });
+  // res.cookie('refreshtoken', refreshtoken);
 };
 
 module.exports = {
   createAccressToken,
   createRefreshToken,
-  sendAccessToken,
+  // sendAccessToken,
   sendRefreshToken,
 };
