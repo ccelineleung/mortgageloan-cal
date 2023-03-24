@@ -4,6 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import InputForm from './InputForm';
 import jwt_decode from 'jwt-decode';
 import { UserInfoContext } from '../context/AuthContext';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 const SaveButton = ({
   homeValue,
@@ -26,7 +27,6 @@ const SaveButton = ({
   const { userInfo } = useContext(UserInfoContext);
 
   useEffect(() => {
-
     // if (userInfo.userId) {
     //   setUserId(userInfo.userId)
     // } else {
@@ -98,7 +98,17 @@ const SaveButton = ({
           {
             // @ts-ignore
             (close) => (
-              <div className='modal'>
+              <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
+                <div className='absolute top-0 right-0 hidden pt-4 pr-4 sm:block'>
+                  <button
+                    type='button'
+                    className='rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                    onClick={() => close()}
+                  >
+                    <span className='sr-only'>Close</span>
+                    <XMarkIcon className='h-6 w-6' aria-hidden='true' />
+                  </button>
+                </div>
                 <div className='content'>
                   <InputForm
                     text='Name'
@@ -128,14 +138,6 @@ const SaveButton = ({
                     Save
                   </button>
                   {errorMessage && <div>{errorMessage}</div>}
-
-                  <button
-                    type='button'
-                    className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-                    onClick={() => close()}
-                  >
-                    Close
-                  </button>
                 </div>
               </div>
             )

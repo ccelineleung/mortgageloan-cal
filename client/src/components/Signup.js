@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-// import { SignupContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { XCircleIcon } from '@heroicons/react/24/outline';
-import {FaHome} from "react-icons/fa"
+import { FaHome } from 'react-icons/fa';
+import {Link} from 'react-router-dom'
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -101,12 +101,13 @@ const Signup = () => {
           </h2>
           <p className='mt-2 text-center text-sm text-gray-600'>
             Or{' '}
-            <a
-              href='/account'
+       
+            <Link
+              to='/account'
               className='font-medium text-indigo-600 hover:text-indigo-500'
             >
               Return to Sign in
-            </a>
+            </Link>
           </p>
         </div>
 

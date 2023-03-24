@@ -171,6 +171,7 @@ userController.protectedRoute = async (req, res, next) => {
       res.locals.stats = {
         data: 'This is protected data',
       };
+      console.log(`hiiiiiiii`)
       return next();
     } else {
       return res
