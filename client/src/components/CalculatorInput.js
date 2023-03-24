@@ -222,7 +222,7 @@ const CalculatorInput = () => {
             {moreQuestion ? (
               <button
                 type='button'
-                className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
+                className='rounded-md mt-3 mr-3 bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
                 onClick={() => {
                   setMoreQuestion(false);
                 }}
@@ -235,7 +235,7 @@ const CalculatorInput = () => {
                   setMoreQuestion(true);
                 }}
                 type='button'
-                className='rounded-md bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
+                className='rounded-md mt-3 mr-3 bg-indigo-50 py-1.5 px-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100'
               >
                 Show Questions
               </button>
@@ -243,14 +243,14 @@ const CalculatorInput = () => {
             <br />
             <button
               type='button'
-              className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              className='rounded-md mt-3 mr-3 bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
               onClick={calculateMonthlyPayment}
             >
               Calculate
             </button>
             <button
               type='button'
-              className='rounded-md bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+              className='rounded-md mt-3 bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
               onClick={clearState}
             >
               Clear

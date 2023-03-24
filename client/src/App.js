@@ -21,23 +21,6 @@ const App = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
 
-
-
-  const logOutCallback = async () => {
-    const res = await fetch('api/users/logout', {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: { 'Content-Type': 'Application/JSON' },
-    });
-
-    await res.json();
-    //clean user from context
-    setUserInfo({});
-    localStorage.clear();
-    //navigate back to startpage
-    navigate('/account');
-  };
-
   //get a new accesstoken if a refreshtoken exist
   useEffect(() => {
     const checkRefreshToken = async () => {
@@ -52,7 +35,6 @@ const App = () => {
           ...userInfo,
           accesstoken: data.accesstoken,
         });
-      
       } catch (err) {
         console.log(err.message);
       }
@@ -60,12 +42,11 @@ const App = () => {
     checkRefreshToken();
   }, []);
 
-
   return (
     <>
       <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
         {/* <SignupContext.Provider value={{ signupInfo, setSignupInfo }}> */}
-        <NavBar logOutCallback={logOutCallback} />
+        <NavBar />
         <Routes>
           <Route path='/' element={<Homepage />} />
           <Route path='/protected' element={<History />} />

@@ -10,14 +10,30 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'History', href: '/protected' },
 ];
-const NavBar = ({ logOutCallback }) => {
-  const { userInfo } = useContext(UserInfoContext);
+const NavBar = () => {
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [LoggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState();
   const navigate = useNavigate();
 
   console.log('userInfo from Navbar', userInfo);
+
+  const logOutCallback = async () => {
+    const res = await fetch('api/users/logout', {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'Application/JSON' },
+    });
+
+    await res.json();
+    //clean user from context
+    setUserInfo({});
+    setLoggedIn(false);
+    // localStorage.clear();
+    //navigate back to startpage
+    navigate('/account');
+  };
 
   const linktoOther = (link) => {
     navigate(link);
@@ -61,7 +77,7 @@ const NavBar = ({ logOutCallback }) => {
             <Bars3Icon className='h-6 w-6' aria-hidden='true' />
           </button>
         </div>
-        <div className='hidden lg:flex lg:gap-x-12'>
+        <div className='hidden lg:flex  lg:gap-x-12'>
           {navigation.map((item) => (
             <button
               key={item.name}

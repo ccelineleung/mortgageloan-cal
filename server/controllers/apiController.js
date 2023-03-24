@@ -123,7 +123,7 @@ apiController.addtoDB = async (req, res, next) => {
     address,
     additionalInfo,
   ];
-  // console.log(param)
+
   try {
     const addtoDBQuery = `
     INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,pmi,insurance,hoa,monthlypayment,finalpayment,name,address,additionalinfo)
@@ -133,7 +133,7 @@ apiController.addtoDB = async (req, res, next) => {
 
     const data = await db.query(addtoDBQuery, param);
 
-    res.local.status = {
+    res.locals.status = {
       status: true,
       message: 'Successful added to DB',
     };
