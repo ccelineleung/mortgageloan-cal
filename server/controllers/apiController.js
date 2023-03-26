@@ -30,16 +30,16 @@ apiController.allSavedforId = async (req, res, next) => {
 
 //edit the home info
 apiController.editHomeInfo = async (req, res, next) => {
-  const { home_id, name, address, userId } = req.body;
-  const param = [home_id, name, address, userId];
+  const { home_id, name, userId, additionalInfo } = req.body;
+  const param = [home_id, name, userId, additionalInfo];
 
   console.log(`req.body`, req.body);
   console.log(`param`, param);
   try {
     const updateQuery = `
         UPDATE homedata
-        SET name = $2, address = $3 
-        WHERE home_id = $1 AND user_id = $4
+        SET name = $2, additionalInfo = $4
+        WHERE home_id = $1 AND user_id = $3
           `;
 
     const data = await db.query(updateQuery, param);
@@ -103,7 +103,10 @@ apiController.addtoDB = async (req, res, next) => {
     monthlyPayment,
     finalFees,
     name,
-    address,
+    streetaddress,
+    city,
+    state,
+    zipCode,
     additionalInfo,
   } = req.body;
   const param = [
@@ -120,14 +123,18 @@ apiController.addtoDB = async (req, res, next) => {
     monthlyPayment,
     finalFees,
     name,
-    address,
+    streetaddress,
+    city,
+    state,
+    zipCode,
     additionalInfo,
   ];
-
+console.log(req.body)
+console.log(param)
   try {
     const addtoDBQuery = `
-    INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,pmi,insurance,hoa,monthlypayment,finalpayment,name,address,additionalinfo)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+    INSERT INTO homedata(user_id,homevalue,loanamount,downpayment,interest,loanterm,proptax,pmi,insurance,hoa,monthlypayment,finalpayment,name,streetaddress,city,state,zipcode,additionalinfo)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
     RETURNING *
           `;
 

@@ -17,7 +17,7 @@ const NavBar = () => {
   const [username, setUsername] = useState();
   const navigate = useNavigate();
 
-  console.log('userInfo from Navbar', userInfo);
+  // console.log('userInfo from Navbar', userInfo);
 
   const logOutCallback = async () => {
     const res = await fetch('api/users/logout', {
@@ -30,7 +30,6 @@ const NavBar = () => {
     //clean user from context
     setUserInfo({});
     setLoggedIn(false);
-    // localStorage.clear();
     //navigate back to startpage
     navigate('/account');
   };
@@ -82,7 +81,7 @@ const NavBar = () => {
             <button
               key={item.name}
               onClick={() => linktoOther(item.href)}
-              className='text-sm font-semibold leading-6 text-gray-900'
+              className='text-sm font-semibold leading-6 text-gray-900 mr-10'
             >
               {item.name}
             </button>
@@ -92,8 +91,8 @@ const NavBar = () => {
         {LoggedIn === true && (
           <div>
             <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-              <h2 className='text-sm font-semibold leading-6 text-gray-900'>
-                Hello,{username}
+              <h2 className='text-sm font-semibold leading-6 text-gray-900 mr-2.5'>
+                Hello {username}
               </h2>
               <button
                 onClick={logOutCallback}
@@ -142,7 +141,7 @@ const NavBar = () => {
           </div>
           <div className='mt-6 flow-root'>
             <div className='-my-6 divide-y divide-gray-500/10'>
-              <div className='space-y-2 py-6'>
+              <div className='space-y-2 py-6 '>
                 {navigation.map((item) => (
                   <button
                     key={item.name}
@@ -156,7 +155,7 @@ const NavBar = () => {
               {LoggedIn === true && (
                 <div className='py-6'>
                   <h2 className='text-sm font-semibold leading-8 text-gray-900'>
-                    Hello, {username}
+                    Hello {username}
                   </h2>
                   <button
                     onClick={logOutCallback}

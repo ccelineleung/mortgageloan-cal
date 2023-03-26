@@ -24,7 +24,10 @@ CREATE TABLE homedata (
   monthlypayment       VARCHAR(255) NOT NULL,
   finalpayment       VARCHAR(255) NOT NULL,
   name      VARCHAR(255) NOT NULL,
-  address       VARCHAR(255) NOT NULL,
+  streetaddress    VARCHAR(255) NOT NULL,
+  city    VARCHAR(255) NOT NULL,
+  state    VARCHAR(255) NOT NULL,
+  zipcode  VARCHAR(255) NOT NULL,
   additionalInfo       VARCHAR(255) NOT NULL,
 
 

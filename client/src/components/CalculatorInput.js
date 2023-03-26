@@ -148,7 +148,7 @@ const CalculatorInput = () => {
             <div>
               <label
                 htmlFor='number'
-                className='block text-sm font-medium leading-6 text-gray-900'
+                className='block mt-2 text-sm font-medium leading-6 text-gray-900'
               >
                 Interest Rate
               </label>
@@ -169,8 +169,8 @@ const CalculatorInput = () => {
               </div>
             </div>
 
-            <label>Loan Term:</label>
-            <select onChange={handleTerm}>
+            <label className='block mt-2 text-sm font-medium leading-6 text-gray-900'>Loan Term:</label>
+            <select onChange={handleTerm} className='mt-2 rounded-md'>
               <option value='30'>30-Years Fixed</option>
               <option value='25'>25-Years Fixed</option>
               <option value='15'>15-Years Fixed</option>

@@ -21,7 +21,10 @@ const SaveButton = ({
   finalFees,
 }) => {
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [streetAddress, setStreetAddress] = useState('none');
+  const [city, setCity] = useState('none');
+  const [state, setState] = useState('none');
+  const [zipCode, setZipCode] = useState('none');
   const [additionalInfo, setAddtionalInfo] = useState('');
   const [userId, setUserId] = useState('');
   const { userInfo } = useContext(UserInfoContext);
@@ -51,7 +54,10 @@ const SaveButton = ({
       PMIFee: PMIFee,
       finalFees: finalFees,
       name: name,
-      address: address,
+      streetaddress: streetAddress,
+      city: city,
+      state: state,
+      zipCode: zipCode,
       additionalInfo: additionalInfo,
     };
     try {
@@ -77,9 +83,6 @@ const SaveButton = ({
           trigger={
             <button
               type='button'
-              // onClick={() => {
-              //   checkLogInStatus();
-              // }}
               className='rounded-md mt-3 mr-3 bg-indigo-600 py-1.5 px-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             >
               {' '}
@@ -131,6 +134,7 @@ const SaveButton = ({
                       </label>
                       <div className='mt-2'>
                         <input
+                          onChange={(e) => setStreetAddress(e.target.value)}
                           type='text'
                           name='street-address'
                           id='street-address'
@@ -149,6 +153,7 @@ const SaveButton = ({
                       </label>
                       <div className='mt-2'>
                         <input
+                          onChange={(e) => setCity(e.target.value)}
                           type='text'
                           name='city'
                           id='city'
@@ -167,6 +172,7 @@ const SaveButton = ({
                       </label>
                       <div className='mt-2'>
                         <input
+                          onChange={(e) => setState(e.target.value)}
                           type='text'
                           name='region'
                           id='region'
@@ -185,6 +191,7 @@ const SaveButton = ({
                       </label>
                       <div className='mt-2'>
                         <input
+                          onChange={(e) => setZipCode(e.target.value)}
                           type='text'
                           name='postal-code'
                           id='postal-code'

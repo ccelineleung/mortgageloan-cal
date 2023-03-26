@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { redirect } from 'react-router';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserInfoContext } from '../context/AuthContext';
 import jwt_decode from 'jwt-decode';
 import Popup from 'reactjs-popup';
-import InputForm from './InputForm';
 import {
-  ExclamationTriangleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
@@ -19,15 +16,15 @@ const History = () => {
   const [userData, setUserData] = useState([]);
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
 
   useEffect(() => {
-    console.log(`userinfo from history`, userInfo);
+    // console.log(`userinfo from history`, userInfo);
     const user_Id = userInfo.userId;
     setUserId(user_Id);
 
     const getAllData = async () => {
-      console.log(`1111111111`);
+      // console.log(`1111111111`);
       const body = { userId: user_Id };
 
       try {
@@ -37,7 +34,7 @@ const History = () => {
           body: JSON.stringify(body),
         });
         const data = await res.json();
-        console.log(`data from history`, data);
+        // console.log(`data from history`, data);
         setUserData(data);
       } catch (error) {
         console.log(error.message);
@@ -56,7 +53,7 @@ const History = () => {
           },
         });
         const datas = await res.json();
-        console.log(`datas from history`, datas);
+        // console.log(`datas from history`, datas);
         if (datas.data === undefined) {
           navigate('/account');
           return content;
@@ -69,17 +66,6 @@ const History = () => {
       }
     };
 
-    // const token = localStorage.getItem('accesstoken');
-    // let user_Id;
-    // if (token) {
-    //   const decoded = jwt_decode(token);
-
-    //   user_Id = decoded.userId;
-    //   setUserId(user_Id);
-    // }
-
-    // setUserId(decoded.userId);
-
     fetchProtected();
     if (user_Id) getAllData();
   }, [userInfo]);
@@ -91,7 +77,7 @@ const History = () => {
       userId: userId,
       home_id: id,
     };
-    console.log(`THIS IS BODY FROM DELETE DATA`, body);
+    // console.log(`THIS IS BODY FROM DELETE DATA`, body);
     try {
       const res = await fetch(`api/delete`, {
         method: 'DELETE',
@@ -112,7 +98,7 @@ const History = () => {
       userId: userId,
       home_id: id,
       name: name,
-      address: address,
+      additionalInfo: additionalInfo,
     };
     try {
       const res = await fetch(`api/editHomeInfo`, {
@@ -211,8 +197,8 @@ const History = () => {
       <div className='px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:items-center'>
           <div className='sm:flex-auto'>
-            <h1 className='text-base font-semibold leading-6 text-gray-900'>
-              Saved Homes
+            <h1 className='text-base mt-5 font-semibold leading-6 text-gray-900'>
+              Saved Homes List
             </h1>
             {/* <p className="mt-2 text-sm text-gray-700">
             A list of all the users in your account including their name, title, email and role.
@@ -270,6 +256,12 @@ const History = () => {
                       </th>
                       <th
                         scope='col'
+                        className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                      >
+                        City
+                      </th>
+                      <th
+                        scope='col'
                         className='relative py-3.5 pl-3 pr-4 sm:pr-6'
                       >
                         <span className='sr-only'>Edit</span>
@@ -305,6 +297,9 @@ const History = () => {
                         </td>
                         <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
                           {data.monthlypayment}
+                        </td>
+                        <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                          {data.city}
                         </td>
                         <td className='relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
                           <Popup
@@ -347,17 +342,17 @@ const History = () => {
                                       onChange={(e) => setName(e.target.value)}
                                     />
                                     <label className='block text-sm font-medium leading-6 text-gray-900'>
-                                      Address
+                                      Additional Info
                                     </label>
-                                    <input
+                                    <textarea
                                       className='block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                                      placeholder={data.address}
+                                      placeholder={data.additionalInfo}
                                       onChange={(e) =>
-                                        setAddress(e.target.value)
+                                        setAdditionalInfo(e.target.value)
                                       }
                                     />
                                   </div>
-                                    <br />
+                                  <br />
                                   <div className='flex flex-row'>
                                     {/* <button onClick={() => close()}>Save</button> */}
                                     <button

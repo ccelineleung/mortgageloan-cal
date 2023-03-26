@@ -166,12 +166,12 @@ userController.protectedRoute = async (req, res, next) => {
   try {
     const userId = await isAuth(req);
 
-    console.log(`userID`, userId);
+    // console.log(`userID`, userId);
     if (userId) {
       res.locals.stats = {
         data: 'This is protected data',
       };
-      console.log(`hiiiiiiii`)
+   
       return next();
     } else {
       return res
