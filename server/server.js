@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true })); //support URL-encoded bodies
 
 // // basic get request to get index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+  res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // handle request for static files
