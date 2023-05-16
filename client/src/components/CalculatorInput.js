@@ -81,7 +81,7 @@ const CalculatorInput = () => {
       Number(calInput.propertyTax);
 
     setCalInput({ ...calInput, finalFees: newFinalFees });
-    console.log(`this is monthly payment`, calInput.monthlyPayment);
+    // console.log(`this is monthly payment`, calInput.monthlyPayment);
     return calInput.finalFees;
   };
 

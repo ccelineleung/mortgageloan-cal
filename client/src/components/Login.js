@@ -58,6 +58,11 @@ const Login = () => {
     } catch (error) {
       console.log(error.message);
     }
+
+    const linktoGithub = async(e) => {
+      e.preventDefault();
+      
+    }
   };
 
   // useEffect(() => {
@@ -272,7 +277,8 @@ const Login = () => {
                     href='#'
                     className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
                   >
-                    <span className='sr-only'>Sign in with GitHub</span>
+                    <span className='sr-only'
+                    onClick={() => linktoGithub()}>Sign in with GitHub</span>
                     <svg
                       className='h-5 w-5'
                       aria-hidden='true'
