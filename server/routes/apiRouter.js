@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userRouter = require('./userRouter.js');
+const githubRouter = require('./githubRouter.js')
 const apiController = require('../controllers/apiController');
 
 const path = require('path');
@@ -37,5 +38,7 @@ router.post('/addtoDB', apiController.addtoDB, (req, res) => {
 
 //routes login/signup requests to userRoute router
 router.use('/users', userRouter);
+//routes for github Oauth
+router.use('/github',githubRouter)
 
 module.exports = router;

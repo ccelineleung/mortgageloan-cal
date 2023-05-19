@@ -10,9 +10,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState(null);
-  // const [userId, setUserId] = useState('') //#############
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [rerender, setRerender] = useState(false);
 
   const linktoSignUp = () => {
     navigate('/signup');
@@ -58,18 +59,57 @@ const Login = () => {
     } catch (error) {
       console.log(error.message);
     }
-
-    const linktoGithub = async(e) => {
-      e.preventDefault();
-      
-    }
   };
 
-  // useEffect(() => {
-  //   console.log(`This is userInfo from Login`, userInfo);
-  // }, [handleLogin, userInfo]);
+  const CLIENT_ID = '9cd0743fffb166dd3058';
 
-  // console.log('USER INFO FROM LOG IN PAGE',userInfo)
+  const linktoGithub = async () => {
+    await window.location.assign(
+      'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID
+    );
+  };
+
+  const getUserData = async () => {
+    await fetch('api/github/getUserData', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  useEffect(() => {
+    const queryString = window.location.search;
+
+    const urlParams = new URLSearchParams(queryString);
+    const codeParam = urlParams.get('code');
+    console.log(`codeParam`, codeParam);
+
+    if (codeParam && localStorage.getItem('accessToken') === null) {
+      const getAccessToken = async () => {
+        await fetch('api/github/getAccessToken?code=' + codeParam, {
+          method: 'GET',
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            if (data.access_token) {
+              localStorage.setItem('accessToken', data.access_token);
+              setRerender(!rerender);
+            }
+          });
+      };
+      getAccessToken();
+    }
+  }, [linktoGithub]);
 
   return (
     <>
@@ -274,11 +314,11 @@ const Login = () => {
 
                 <div>
                   <a
+                    onClick={() => linktoGithub()}
                     href='#'
                     className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
                   >
-                    <span className='sr-only'
-                    onClick={() => linktoGithub()}>Sign in with GitHub</span>
+                    <span className='sr-only'>Sign in with GitHub</span>
                     <svg
                       className='h-5 w-5'
                       aria-hidden='true'
