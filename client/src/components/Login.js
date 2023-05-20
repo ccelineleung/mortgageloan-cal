@@ -69,21 +69,6 @@ const Login = () => {
     );
   };
 
-  const getUserData = async () => {
-    await fetch('api/github/getUserData', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  };
-
   useEffect(() => {
     const queryString = window.location.search;
 
@@ -104,44 +89,42 @@ const Login = () => {
             if (data.access_token) {
               localStorage.setItem('accessToken', data.access_token);
               setRerender(!rerender);
+              setUserInfo({
+                ...userInfo,
+                accesstoken: data.access_token,
+              });
             }
           });
       };
+
+      const getUserData = async () => {
+        await fetch('api/github/getUserData', {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            setUserInfo({
+              ...userInfo,
+              username: data.Login,
+            });
+          });
+      };
+
       getAccessToken();
+      getUserData();
+    } else {
+      navigate('/');
     }
   }, [linktoGithub]);
 
   return (
     <>
-      {/* <h1>Returning Customer Sign in</h1>
-      <form onSubmit={handleLogin}>
-        <label htmlFor='email'>Email:</label>
-        <input
-          type='email'
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        ></input>
-        <label htmlFor='pass'>Password:</label>
-        <input
-          type='password'
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        ></input>
-        {errorMessage && (
-          <div className='error-message login'>{errorMessage}</div>
-        )}
-        <input type='submit' value='Sign in'></input>
-      </form>
-
-      <div>
-        <h1>New Customer</h1>
-        <h3>Benefits of creating an account: </h3>
-        <h3>&#x2022; One account, one login. </h3>
-        <h3>&#x2022; Tracking history, and save the data</h3>
-
-        <button onClick={() => LinktoSignIn()}>CREATE ACCOUNT</button>
-      </div> */}
-
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <FaHome className='mx-auto h-12 w-auto' />

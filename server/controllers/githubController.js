@@ -36,6 +36,7 @@ gitubController.getAccessToken = async (req, res, next) => {
 // access token is going to be passed in as an Authorization header
 
 gitubController.getUserData = async (req, res, next) => {
+  let data;
   req.get('Authorization'); // Bearer ACCESSTOKEN
   await fetch('https://api.github.com/user', {
     method: 'GET',
@@ -46,10 +47,13 @@ gitubController.getUserData = async (req, res, next) => {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
+    .then((datas) => {
       console.log(data);
-      res.json(data);
+      //   res.json(data);
+      data = datas;
     });
+
+  const { data.Login} = data.Login
 };
 
 module.exports = gitubController;
