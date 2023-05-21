@@ -118,8 +118,6 @@ const Login = () => {
 
       getAccessToken();
       getUserData();
-    } else {
-      navigate('/');
     }
   }, [linktoGithub]);
 
