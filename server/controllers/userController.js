@@ -50,8 +50,8 @@ userController.newuUserSignup = async (req, res, next) => {
 
   try {
     const newCharQuery = `
-        INSERT INTO users(username, email, password,refreshtoken )
-        VALUES($1,$2, $3, 0)
+        INSERT INTO users(username, email, password,refreshtoken,githubUser )
+        VALUES($1,$2, $3, 0,no)
         RETURNING *;
         `;
 
@@ -171,7 +171,7 @@ userController.protectedRoute = async (req, res, next) => {
       res.locals.stats = {
         data: 'This is protected data',
       };
-   
+
       return next();
     } else {
       return res

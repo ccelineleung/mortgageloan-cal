@@ -71,32 +71,33 @@ const Login = () => {
 
   useEffect(() => {
     const queryString = window.location.search;
-
+    
     const urlParams = new URLSearchParams(queryString);
     const codeParam = urlParams.get('code');
     console.log(`codeParam`, codeParam);
-
+    
+    console.log(codeParam,localStorage.getItem('accessToken') )
     if (codeParam && localStorage.getItem('accessToken') === null) {
       const getAccessToken = async () => {
         await fetch('api/github/getAccessToken?code=' + codeParam, {
           method: 'GET',
         })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            console.log(data);
-            if (data.access_token) {
-              localStorage.setItem('accessToken', data.access_token);
-              setRerender(!rerender);
-              setUserInfo({
-                ...userInfo,
-                accesstoken: data.access_token,
-              });
-            }
-          });
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log('data');
+          if (data.access_token) {
+            localStorage.setItem('accessToken', data.access_token);
+            setRerender(!rerender);
+            setUserInfo({
+              ...userInfo,
+              accesstoken: data.access_token,
+            });
+          }
+        });
       };
-
+      
       const getUserData = async () => {
         await fetch('api/github/getUserData', {
           method: 'GET',
@@ -118,7 +119,8 @@ const Login = () => {
 
       getAccessToken();
       getUserData();
-    }
+    } 
+    console.log(`userinfo`,userInfo)
   }, [linktoGithub]);
 
   return (

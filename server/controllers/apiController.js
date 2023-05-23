@@ -33,8 +33,8 @@ apiController.editHomeInfo = async (req, res, next) => {
   const { home_id, name, userId, additionalInfo } = req.body;
   const param = [home_id, name, userId, additionalInfo];
 
-  console.log(`req.body`, req.body);
-  console.log(`param`, param);
+  // console.log(`req.body`, req.body);
+  // console.log(`param`, param);
   try {
     const updateQuery = `
         UPDATE homedata

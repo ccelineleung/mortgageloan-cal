@@ -6,6 +6,7 @@ CREATE TABLE users (
   email    VARCHAR(50)  NOT NULL UNIQUE,
   password      VARCHAR(255)  NOT NULL,
   refreshtoken VARCHAR(255)  NOT NULL,
+  githubUser VARCHAR(255)  NOT NULL,
 );
 
 
