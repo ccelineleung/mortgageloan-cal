@@ -1,4 +1,7 @@
 const db = require('../models/dbModels');
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 
 const gitubController = {};
 
@@ -35,8 +38,9 @@ const CLIENT_SECRET = '9c5e14ff4a28c13306853edd1387169c73045c3e';
 
 gitubController.getAccessToken = async (req, res, next) => {
   // it wont run if the code is not exist
-  req.query.code;
-  console.log(`hii`)
+//   req.query.code;
+  console.log(`req.query.code`, req.query.code);
+  console.log(`hii`);
   const params =
     '?client_id=' +
     CLIENT_ID +
@@ -44,7 +48,7 @@ gitubController.getAccessToken = async (req, res, next) => {
     CLIENT_SECRET +
     '&code=' +
     req.query.code;
-
+  console.log(`this is params`, params);
   try {
     const result = await fetch(
       'https://github.com/login/oauth/access_token' + params,
@@ -57,7 +61,8 @@ gitubController.getAccessToken = async (req, res, next) => {
     );
 
     const data = await result.json();
-    res.locals.status = data
+    console.log(`data from getAccessToken`, data);
+    res.locals.status = data;
     return next();
   } catch (error) {
     console.log(error.message);
@@ -87,9 +92,10 @@ gitubController.getAccessToken = async (req, res, next) => {
 //   return next();
 // };
 
+//access token is going to be passed in as an authorization header
 gitubController.getUserData = async (req, res, next) => {
   req.get('Authorization'); // Bearer ACCESSTOKEN
-  console.log(`hi`)
+  console.log(`hi`);
   try {
     const result = await fetch('https://api.github.com/user', {
       method: 'GET',
@@ -98,8 +104,8 @@ gitubController.getUserData = async (req, res, next) => {
       },
     });
     const data = await result.json();
-    res.locals.status = data
-    console.log(data)
+    res.locals.status = data;
+    console.log(data);
     return next();
   } catch (error) {
     console.log(error.message);
@@ -107,4 +113,3 @@ gitubController.getUserData = async (req, res, next) => {
 };
 
 module.exports = gitubController;
-

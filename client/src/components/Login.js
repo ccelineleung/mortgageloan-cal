@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import { use } from '../../../server/s erver';
 import { UserInfoContext } from '../context/AuthContext';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { FaHome } from 'react-icons/fa';
@@ -71,57 +70,57 @@ const Login = () => {
 
   useEffect(() => {
     const queryString = window.location.search;
-    
+
     const urlParams = new URLSearchParams(queryString);
     const codeParam = urlParams.get('code');
     console.log(`codeParam`, codeParam);
-    
-    console.log(codeParam,localStorage.getItem('accessToken') )
+
+    console.log(codeParam, localStorage.getItem('accessToken'));
     if (codeParam && localStorage.getItem('accessToken') === null) {
       const getAccessToken = async () => {
         await fetch('api/github/getAccessToken?code=' + codeParam, {
           method: 'GET',
         })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          console.log('data');
-          if (data.access_token) {
-            localStorage.setItem('accessToken', data.access_token);
-            setRerender(!rerender);
-            setUserInfo({
-              ...userInfo,
-              accesstoken: data.access_token,
-            });
-          }
-        });
-      };
-      
-      const getUserData = async () => {
-        await fetch('api/github/getUserData', {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
-          },
-        })
           .then((response) => {
             return response.json();
           })
           .then((data) => {
-            console.log(data);
-            setUserInfo({
-              ...userInfo,
-              username: data.Login,
-            });
+            console.log('data', data);
+            if (data.access_token) {
+              localStorage.setItem('accessToken', data.access_token);
+              setRerender(!rerender);
+              // setUserInfo({
+              //   ...userInfo,
+              //   accesstoken: data.access_token,
+              // });
+            }
           });
       };
 
       getAccessToken();
       getUserData();
-    } 
-    console.log(`userinfo`,userInfo)
+    }
+    console.log(`userinfo`, userInfo);
   }, [linktoGithub]);
+
+  const getUserData = async () => {
+    await fetch('api/github/getUserData', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setUserInfo({
+          ...userInfo,
+          username: data.Login,
+        });
+      });
+  };
 
   return (
     <>
@@ -296,9 +295,8 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <a
+                  <button
                     onClick={() => linktoGithub()}
-                    href='#'
                     className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
                   >
                     <span className='sr-only'>Sign in with GitHub</span>
@@ -314,7 +312,7 @@ const Login = () => {
                         clipRule='evenodd'
                       />
                     </svg>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

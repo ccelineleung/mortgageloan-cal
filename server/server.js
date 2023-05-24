@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
+const bodyParser = require('body-parser')
 const app = express();
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;
@@ -10,6 +10,7 @@ const apiRouter = require('./routes/apiRouter');
 
 // handle parsing request body
 app.use(cookieParser());
+app.use(bodyParser.json())
 app.use(cors());
 app.use(
   cors({
