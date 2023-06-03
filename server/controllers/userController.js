@@ -47,11 +47,11 @@ userController.newuUserSignup = async (req, res, next) => {
   const hashedPassword = await hash(password, 10);
 
   const param = [username, email, hashedPassword];
-
+  // console.log(param);
   try {
     const newCharQuery = `
-        INSERT INTO users(username, email, password,refreshtoken,githubUser )
-        VALUES($1,$2, $3, 0,no)
+        INSERT INTO users(username, email, password,refreshtoken,githubUser)
+        VALUES($1,$2, $3, 0,0)
         RETURNING *;
         `;
 
@@ -60,13 +60,16 @@ userController.newuUserSignup = async (req, res, next) => {
 
     res.locals.user_id = result.rows[0].user_id;
     res.locals.status = {
-      user_id: result.rows[0].user_id,
+      userId: result.rows[0].user_id,
+      accesstoken: result.rows[0].accesstoken,
+      username: result.rows[0].username,
       status: true,
       message: 'Account has been created!',
     };
 
     return next();
   } catch (error) {
+    console.log(error.message);
     return next({
       log: 'Express error in newuUserSignup middleware',
       status: 400,

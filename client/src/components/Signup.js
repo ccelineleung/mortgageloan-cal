@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { FaHome } from 'react-icons/fa';
 import {Link} from 'react-router-dom'
+import { UserInfoContext } from '../context/AuthContext';
 
 const Signup = () => {
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
-
   const [errorMessage, setErrorMessage] = useState(null); // set errorMessage if passwords do not match
 
   // Controlled or uncontrolled?
@@ -40,6 +41,12 @@ const Signup = () => {
       if (data.status === false) {
         setErrorMessage('Email already exists');
       } else {
+        setUserInfo({
+          ...userInfo,
+          userId: data.userId,
+          username: data.username,
+          accesstoken: data.accesstoken,
+        });
         navigate('/');
       }
     } catch (error) {
