@@ -149,6 +149,7 @@ userController.logOutUser = (req, res, next) => {
   try {
     // res.clearCookie('refreshtoken', { path: '/protected' });
     res.clearCookie('refreshtoken');
+  
     res.locals.status = {
       message: 'Logged out',
     };

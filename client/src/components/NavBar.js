@@ -30,6 +30,7 @@ const NavBar = () => {
     //clean user from context
     setUserInfo({});
     setLoggedIn(false);
+    localStorage.clear();
     //navigate back to startpage
     navigate('/account');
   };
