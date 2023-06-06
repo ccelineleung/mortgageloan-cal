@@ -47,14 +47,16 @@ gitubController.getAccessToken = async (req, res, next) => {
 //getUserData
 //access token is going to be passed in as an authorization header
 gitubController.getUserData = async (req, res, next) => {
-  req.get('Authorization'); // Bearer ACCESSTOKEN
-  console.log(`hi`, req.get('Authorization'));
+  // req.get('Authorization'); // Bearer ACCESSTOKEN
+  const accessToken = req.headers['authorization'];
+  const newAccessToken = accessToken.substring(6);
+
   try {
     const result = await fetch('https://api.github.com/user', {
       method: 'GET',
       headers: {
-        'content-type': 'application/json',
-        Authorization: req.get('Authorization'),
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${newAccessToken}`,
       },
     });
 

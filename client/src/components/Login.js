@@ -5,6 +5,7 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 import { FaHome } from 'react-icons/fa';
 
 
+
 const Login = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ const Login = () => {
             //   accesstoken: data.access_token,
             // });
           }
+          // console.log(userInfo)
         } catch (error) {
           console.log(error.message);
         }
