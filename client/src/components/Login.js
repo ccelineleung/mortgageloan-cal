@@ -4,6 +4,7 @@ import { UserInfoContext } from '../context/AuthContext';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { FaHome } from 'react-icons/fa';
 
+
 const Login = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
@@ -61,6 +62,7 @@ const Login = () => {
   };
 
   const CLIENT_ID = '9cd0743fffb166dd3058';
+  // const CLIENT_ID = process.env.OAUTH_GITHUB_ID
 
   const linktoGithub = async () => {
     await window.location.assign(
@@ -78,49 +80,53 @@ const Login = () => {
     console.log(codeParam, localStorage.getItem('accessToken'));
     if (codeParam && localStorage.getItem('accessToken') === null) {
       const getAccessToken = async () => {
-        await fetch('api/github/getAccessToken?code=' + codeParam, {
-          method: 'GET',
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            console.log('data', data);
-            if (data.access_token) {
-              localStorage.setItem('accessToken', data.access_token);
-              setRerender(!rerender);
-              // setUserInfo({
-              //   ...userInfo,
-              //   accesstoken: data.access_token,
-              // });
+        try {
+          const response = await fetch(
+            'api/github/getAccessToken?code=' + codeParam,
+            {
+              method: 'GET',
             }
-          });
+          );
+          const data = await response.json();
+          console.log('data from getAccressToken', data);
+          if (data.access_token) {
+            localStorage.setItem('accessToken', data.access_token);
+            setRerender(!rerender);
+            // setUserInfo({
+            //   ...userInfo,
+            //   accesstoken: data.access_token,
+            // });
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
       };
 
-      getAccessToken();
+      const getUserData = async () => {
+        try {
+          await getAccessToken();
+          const response = await fetch('api/github/getUserData', {
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
+            },
+          });
+
+          const data = await response.json();
+          console.log(`data from getUserData`, data);
+          setUserInfo({
+            ...userInfo,
+            username: data.Login,
+          });
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      // getAccessToken();
       getUserData();
     }
     console.log(`userinfo`, userInfo);
-  }, [linktoGithub]);
-
-  const getUserData = async () => {
-    await fetch('api/github/getUserData', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer' + localStorage.getItem('accessToken'), //Bearer ACCESSTOKEN
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setUserInfo({
-          ...userInfo,
-          username: data.Login,
-        });
-      });
-  };
+  }, []);
 
   return (
     <>
@@ -257,10 +263,7 @@ const Login = () => {
 
               <div className='mt-6 grid grid-cols-3 gap-3'>
                 <div>
-                  <a
-                    href='#'
-                    className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
-                  >
+                  <button className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'>
                     <span className='sr-only'>Sign in with Facebook</span>
                     <svg
                       className='h-5 w-5'
@@ -274,14 +277,11 @@ const Login = () => {
                         clipRule='evenodd'
                       />
                     </svg>
-                  </a>
+                  </button>
                 </div>
 
                 <div>
-                  <a
-                    href='#'
-                    className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
-                  >
+                  <button className='inline-flex w-full justify-center rounded-md bg-white py-2 px-4 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'>
                     <span className='sr-only'>Sign in with Twitter</span>
                     <svg
                       className='h-5 w-5'
@@ -291,7 +291,7 @@ const Login = () => {
                     >
                       <path d='M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84' />
                     </svg>
-                  </a>
+                  </button>
                 </div>
 
                 <div>
