@@ -66,6 +66,7 @@ const History = () => {
       }
     };
 
+    
     fetchProtected();
     if (user_Id) getAllData();
   }, [userInfo]);
@@ -114,83 +115,6 @@ const History = () => {
       console.log(error.message);
     }
   };
-
-  // console.log(`111111111`, userData);
-  // return (
-  //   <>
-  //     <h1>Target Home Lists</h1>
-
-  //     <table className='styled-table'>
-  //       <thead>
-  //         <tr>
-  //           <th>Name</th>
-  //           <th>HOME VALUES</th>
-  //           <th>DOWN PAYMENT</th>
-  //           <th>LOAN AMOUNT</th>
-  //           <th>INTEREST RATE</th>
-  //           <th>LOAN TERM</th>
-  //           <th>PAYMENT</th>
-  //           <th>Edit</th>
-  //           <th>DELETE</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {userData.map((data, index) => (
-  //           <tr key={index}>
-  //             <td>{data.name}</td>
-  //             <td>{formatter.format(data.homevalue)}</td>
-  //             <td>{formatter.format(data.downpayment)}</td>
-  //             <td>{formatter.format(data.loanamount)}</td>
-  //             <td>{data.interest}%</td>
-  //             <td>{data.loanterm} Years</td>
-  //             <td>{formatter.format(data.monthlypayment)}</td>
-  //             <td>
-  //               {/* <button onClick={() => editHandler(data.home_id)}>
-  //                 Edit
-  //               </button> */}
-  // <Popup trigger={<button> Edit </button>} modal nested>
-  //   {
-  //     // @ts-ignore
-  //     (close) => (
-  //       <div className='modal'>
-  //         <div className='content'>
-  //           <InputForm
-  //             text='Name'
-  //             placeholder={data.name}
-  //             onChange={(e) => setName(e.target.value)}
-  //             required
-  //           />
-  //           <InputForm
-  //             text='Address'
-  //             placeholder={data.address}
-  //             onChange={(e) => setAddress(e.target.value)}
-  //             required
-  //           />
-  //         </div>
-  //         <div>
-  //           {/* <button onClick={() => close()}>Save</button> */}
-  //           <button onClick={() => {editHandler(data.home_id),close()}}>
-  //             Confirm Change
-  //           </button>
-
-  //           <button onClick={() => close()}>Close</button>
-  //         </div>
-  //       </div>
-  //     )
-  //   }
-  // </Popup>
-  //             </td>
-  //             <td>
-  //               <button onClick={() => deleteHandler(data.home_id)}>
-  //                 Delete
-  //               </button>
-  //             </td>
-  //           </tr>
-  //         ))}
-  //       </tbody>
-  //     </table>
-  //   </>
-  // );
 
   return (
     <>

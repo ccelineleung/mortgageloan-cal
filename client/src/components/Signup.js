@@ -56,50 +56,7 @@ const Signup = () => {
 
   return (
     <>
-      {/* <h1>Register</h1>
-      <form onSubmit={handleRegister}>
-        <label htmlFor='username'>Userame:</label>
-        <input
-          type='text'
-          id='username'
-          name='username'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        ></input>
-        <label htmlFor='email'>Email:</label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        ></input>
-        <label htmlFor='pass'>Password:</label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        ></input>
-        <label htmlFor='pass'>Confirm Password:</label>
-        <input
-          type='password'
-          id='password2'
-          name='password2'
-          value={password2}
-          onChange={(e) => setPassword2(e.target.value)}
-          required
-        ></input>
-        {errorMessage && (
-          <div className='error-message login'>{errorMessage}</div>
-        )}
-        <input type='submit' value='Create Account'></input>
-      </form> */}
-
+      
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <FaHome className='mx-auto h-12 w-auto' />

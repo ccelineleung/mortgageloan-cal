@@ -8,7 +8,7 @@ const gitubController = require('../controllers/githubController')
 router.post(
   '/signup',
   userController.checkUsernameAndEmail,
-  userController.newuUserSignup,
+  userController.newUserSignup,
   (req, res) => {
     return res.status(200).json(res.locals.status);
   }

@@ -118,7 +118,9 @@ const Login = () => {
           console.log(`data from getUserData`, data);
           setUserInfo({
             ...userInfo,
-            username: data.Login,
+            userId: data.userId,
+            username: data.username,
+            accesstoken: data.accesstoken,
           });
         } catch (error) {
           console.log(error.message);

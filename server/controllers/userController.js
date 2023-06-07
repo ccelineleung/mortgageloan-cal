@@ -42,7 +42,7 @@ userController.checkUsernameAndEmail = async (req, res, next) => {
   }
 };
 
-userController.newuUserSignup = async (req, res, next) => {
+userController.newUserSignup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = await hash(password, 10);
 
@@ -58,11 +58,40 @@ userController.newuUserSignup = async (req, res, next) => {
     const result = await db.query(newCharQuery, param);
     // console.log('newuUserSignup::::', result);
 
-    res.locals.user_id = result.rows[0].user_id;
+    // res.locals.user_id = result.rows[0].user_id;
+    // res.locals.status = {
+    //   userId: result.rows[0].user_id,
+    //   accesstoken: result.rows[0].accesstoken,
+    //   username: result.rows[0].username,
+    //   status: true,
+    //   message: 'Account has been created!',
+    // };
+
+    const user_id = result.rows[0].user_id;
+
+    const accesstoken = createAccressToken(user_id);
+    const refreshtoken = createRefreshToken(user_id);
+
+    const paramTwo = [user_id, refreshtoken];
+    //4. put the refreshtoken in the database
+    const insertRefreshToken = `
+    UPDATE users
+    SET refreshtoken = $2
+    WHERE user_id = $1
+    RETURNING *
+    `;
+
+    const data2 = await db.query(insertRefreshToken, paramTwo);
+    // console.log(`data comeback from db`, data2);
+    const username = data2.rows[0].username;
+    //5. send token.refreshtoken as a cookie and accesstoken as a regular response
+    sendRefreshToken(res, refreshtoken);
+    // sendAccessToken(req, res, accesstoken, username);
+
     res.locals.status = {
-      userId: result.rows[0].user_id,
-      accesstoken: result.rows[0].accesstoken,
-      username: result.rows[0].username,
+      userId: user_id,
+      accesstoken: accesstoken,
+      username: username,
       status: true,
       message: 'Account has been created!',
     };
@@ -149,7 +178,7 @@ userController.logOutUser = (req, res, next) => {
   try {
     // res.clearCookie('refreshtoken', { path: '/protected' });
     res.clearCookie('refreshtoken');
-  
+
     res.locals.status = {
       message: 'Logged out',
     };
