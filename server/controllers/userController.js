@@ -15,14 +15,14 @@ const userController = {};
 userController.checkUsernameAndEmail = async (req, res, next) => {
   const { username, email } = req.body;
   const param = [email];
-  // console.log('this is the body',req.body)
+
   try {
     const checkQuery = `
         SELECT * FROM users
         WHERE email = $1
         `;
     const checkUserAndEmail = await db.query(checkQuery, param);
-    // console.log('checkUserAndEmail::::', checkUserAndEmail.rows.length);
+   
     ``;
     if (checkUserAndEmail.rows.length === 0) {
       return next();
@@ -47,7 +47,7 @@ userController.newUserSignup = async (req, res, next) => {
   const hashedPassword = await hash(password, 10);
 
   const param = [username, email, hashedPassword];
-  // console.log(param);
+
   try {
     const newCharQuery = `
         INSERT INTO users(username, email, password,refreshtoken,githubUser)
@@ -56,16 +56,6 @@ userController.newUserSignup = async (req, res, next) => {
         `;
 
     const result = await db.query(newCharQuery, param);
-    // console.log('newuUserSignup::::', result);
-
-    // res.locals.user_id = result.rows[0].user_id;
-    // res.locals.status = {
-    //   userId: result.rows[0].user_id,
-    //   accesstoken: result.rows[0].accesstoken,
-    //   username: result.rows[0].username,
-    //   status: true,
-    //   message: 'Account has been created!',
-    // };
 
     const user_id = result.rows[0].user_id;
 
@@ -82,7 +72,7 @@ userController.newUserSignup = async (req, res, next) => {
     `;
 
     const data2 = await db.query(insertRefreshToken, paramTwo);
-    // console.log(`data comeback from db`, data2);
+   
     const username = data2.rows[0].username;
     //5. send token.refreshtoken as a cookie and accesstoken as a regular response
     sendRefreshToken(res, refreshtoken);
@@ -120,7 +110,7 @@ userController.loginUser = async (req, res, next) => {
     `;
 
     const returnData = await db.query(checkEmailQuery, param);
-    // console.log('this is returnData', returnData);
+   
 
     //1. find user in 'database'. if not exist send error
     if (returnData.rows.length === 0) {
@@ -199,7 +189,6 @@ userController.protectedRoute = async (req, res, next) => {
   try {
     const userId = await isAuth(req);
 
-    // console.log(`userID`, userId);
     if (userId) {
       res.locals.stats = {
         data: 'This is protected data',
@@ -246,10 +235,8 @@ userController.refreshToken = async (req, res, next) => {
   WHERE user_id = $1
   `;
   const param = [payload.userId];
-  // console.log(`this is param`, param);
 
   const returnUserData = await db.query(findUserQuery, param);
-  // console.log(`this is returnUserData`, returnUserData);
 
   if (returnUserData.rows.length === 0) return res.send({ accesstoken: '' });
   // user exist, check if refreshtoken exist on user

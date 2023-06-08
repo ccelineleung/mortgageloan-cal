@@ -35,16 +35,11 @@ const Login = () => {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      // console.log(data);
-      // if (data.status === true) {
-      //   navigate('/');
-      // } else {
-      //   setErrorMessage('Wrong Email or Password')
-      // }
+ 
       if (data.status === false) {
         setErrorMessage('Invaild Email or Password');
       }
-      // console.log(`data from frontend log in`, data);
+    
       if (data.status === true) {
         setUserInfo({
           ...userInfo,
@@ -52,9 +47,7 @@ const Login = () => {
           username: data.username,
           accesstoken: data.accesstoken,
         });
-        // console.log(`second userinfo`, userInfo);
-        // localStorage.setItem('accesstoken', data.accesstoken);
-        // console.log(`data.accesstoken from login`,data)
+
         navigate('/');
       }
     } catch (error) {
@@ -93,12 +86,9 @@ const Login = () => {
           if (data.access_token) {
             localStorage.setItem('accessToken', data.access_token);
             setRerender(!rerender);
-            // setUserInfo({
-            //   ...userInfo,
-            //   accesstoken: data.access_token,
-            // });
+          
           }
-          // console.log(userInfo)
+        
         } catch (error) {
           console.log(error.message);
         }
@@ -126,7 +116,7 @@ const Login = () => {
           console.log(error.message);
         }
       };
-      // getAccessToken();
+    
       getUserData();
     }
     console.log(`userinfo`, userInfo);

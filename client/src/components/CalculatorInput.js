@@ -33,16 +33,6 @@ const CalculatorInput = () => {
     return calInput.loanAmount;
   };
 
-  // const calculatorDownPayment = () => {
-  //   const newDownPayment = calInput.percent * calInput.homeValue;
-  //   setCalInput({ ...calInput, downPayment: newDownPayment });
-
-  //   const newPercent = Math.round(calInput.downPayment / calInput.homeValue);
-  //   setCalInput({ ...calInput, percent: newPercent });
-
-  //   return calInput.downPayment || calInput.percent;
-  // };
-
   const calculateMonthlyPayment = () => {
     const percentageToDecimal = (percent) => {
       return percent / 12 / 100;
@@ -136,15 +126,8 @@ const CalculatorInput = () => {
               required
               readOnly
             />
-            {/* <InputForm
-          text='Interest Rate:'
-          type='number'
-          value={calInput.interestRate}
-          onInput={(e) =>
-            setCalInput({ ...calInput, interestRate: e.target.value })
-          }
-          required
-        /> */}
+          
+      
             <div>
               <label
                 htmlFor='number'

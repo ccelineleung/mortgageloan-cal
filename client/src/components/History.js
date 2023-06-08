@@ -19,12 +19,12 @@ const History = () => {
   const [additionalInfo, setAdditionalInfo] = useState('');
 
   useEffect(() => {
-    // console.log(`userinfo from history`, userInfo);
+   
     const user_Id = userInfo.userId;
     setUserId(user_Id);
 
     const getAllData = async () => {
-      // console.log(`1111111111`);
+   
       const body = { userId: user_Id };
 
       try {
@@ -34,7 +34,7 @@ const History = () => {
           body: JSON.stringify(body),
         });
         const data = await res.json();
-        // console.log(`data from history`, data);
+   
         setUserData(data);
       } catch (error) {
         console.log(error.message);
@@ -42,7 +42,7 @@ const History = () => {
     };
 
     const fetchProtected = async () => {
-      // console.log('this is accesstorken fodsiohfoahsfa',userInfo.accesstoken)
+
       try {
         const res = await fetch('api/users/protected', {
           method: 'POST',
@@ -53,13 +53,13 @@ const History = () => {
           },
         });
         const datas = await res.json();
-        // console.log(`datas from history`, datas);
+      
         if (datas.data === undefined) {
           navigate('/account');
           return content;
         } else {
           setContent(datas.data);
-          // getAllData()
+         
         }
       } catch (error) {
         console.log(error.message);
@@ -71,14 +71,13 @@ const History = () => {
     if (user_Id) getAllData();
   }, [userInfo]);
 
-  // console.log(`USERID from HISTORY.JS`, userId);
 
   const deleteHandler = async (id) => {
     const body = {
       userId: userId,
       home_id: id,
     };
-    // console.log(`THIS IS BODY FROM DELETE DATA`, body);
+   
     try {
       const res = await fetch(`api/delete`, {
         method: 'DELETE',
@@ -86,9 +85,9 @@ const History = () => {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      // date -> after delete
+     
       setUserData(data);
-      // console.log(`userData`, userData);
+     
     } catch (error) {
       console.log(error.message);
     }
@@ -110,7 +109,7 @@ const History = () => {
       const data = await res.json();
 
       setUserData(data);
-      // console.log(`userData`, userData);
+    
     } catch (error) {
       console.log(error.message);
     }
@@ -124,9 +123,7 @@ const History = () => {
             <h1 className='text-base mt-5 font-semibold leading-6 text-gray-900'>
               Saved Homes List
             </h1>
-            {/* <p className="mt-2 text-sm text-gray-700">
-            A list of all the users in your account including their name, title, email and role.
-          </p> */}
+         
           </div>
         </div>
         <div className='mt-8 flow-root'>

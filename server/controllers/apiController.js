@@ -6,7 +6,7 @@ const apiController = {};
 apiController.allSavedforId = async (req, res, next) => {
   const { userId } = req.body;
   const param = [userId];
-  // console.log(`USERID reqbody`, req.body);
+ 
   try {
     const allDatafromUserQuery = `
         SELECT * FROM homedata
@@ -14,7 +14,7 @@ apiController.allSavedforId = async (req, res, next) => {
         
         `;
     const allDatafromUser = await db.query(allDatafromUserQuery, param);
-    // console.log(`allDatafromUser`,allDatafromUser)
+   
     res.locals.status = allDatafromUser.rows;
     return next();
   } catch (error) {
@@ -33,8 +33,7 @@ apiController.editHomeInfo = async (req, res, next) => {
   const { home_id, name, userId, additionalInfo } = req.body;
   const param = [home_id, name, userId, additionalInfo];
 
-  // console.log(`req.body`, req.body);
-  // console.log(`param`, param);
+
   try {
     const updateQuery = `
         UPDATE homedata
@@ -43,9 +42,7 @@ apiController.editHomeInfo = async (req, res, next) => {
           `;
 
     const data = await db.query(updateQuery, param);
-    // res.local.status = {
-    //   message: 'home info has been updated',
-    // };
+  
     return next();
   } catch (error) {
     console.log(error.message);
@@ -72,8 +69,7 @@ apiController.deleteHome = async (req, res, next) => {
         `;
 
     const data = await db.query(deleteQuery, param);
-    // res.local.status = data.rows
-    // console.log(`data from backend`,data)
+   
     return next();
   } catch (error) {
     console.log(error.message);

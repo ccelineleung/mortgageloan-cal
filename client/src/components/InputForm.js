@@ -13,20 +13,6 @@ function InputForm({
   className,
 }) {
   return (
-    // <div>
-    //   <label>{text}</label>
-    //   <input
-    //     type={type}
-    //     value={value}
-    //     onInput={onInput}
-    //     onKeyUp={onKeyUp}
-    //     readOnly={readOnly}
-    //     onChange={onChange}
-    //     required={required}
-    //     placeholder={placeholder}
-    //     className={className}
-    //   />
-    // </div>
 
     <div>
       <label
